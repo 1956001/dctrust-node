@@ -1,5 +1,0 @@
-.data
-build/
-vendor/
-go.mod
-go.sum
