@@ -2,10 +2,9 @@ package service
 
 import (
 	"context"
-	"encoding/hex"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
-	"github.com/MinterTeam/minter-go-node/core/types"
+	pb "github.com/kvant-node/api/v2/api_pb"
+	"github.com/kvant-node/core/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -16,27 +15,19 @@ func (s *Service) Addresses(_ context.Context, req *pb.AddressesRequest) (*pb.Ad
 		return new(pb.AddressesResponse), status.Error(codes.NotFound, err.Error())
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Lock()
+	defer cState.Unlock()
 
 	response := &pb.AddressesResponse{
 		Addresses: make([]*pb.AddressesResponse_Result, 0, len(req.Addresses)),
 	}
 
 	for _, address := range req.Addresses {
-		if len(address) < 3 {
-			return new(pb.AddressesResponse), status.Error(codes.InvalidArgument, fmt.Sprintf("invalid address %s", address))
-		}
-
-		decodeString, err := hex.DecodeString(address[2:])
-		if err != nil {
-			return new(pb.AddressesResponse), status.Error(codes.InvalidArgument, err.Error())
-		}
-		addr := types.BytesToAddress(decodeString)
+		addr := types.StringToAddress(address)
 		data := &pb.AddressesResponse_Result{
 			Address:           address,
 			Balance:           make(map[string]string),
-			TransactionsCount: fmt.Sprintf("%d", cState.Accounts.GetNonce(addr)),
+			CountTransactions: fmt.Sprintf("%d", cState.Accounts.GetNonce(addr)),
 		}
 
 		balances := cState.Accounts.GetBalances(addr)

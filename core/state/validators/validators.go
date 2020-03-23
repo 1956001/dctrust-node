@@ -2,15 +2,14 @@ package validators
 
 import (
 	"fmt"
-	eventsdb "github.com/MinterTeam/events-db"
-	"github.com/MinterTeam/minter-go-node/core/dao"
-	"github.com/MinterTeam/minter-go-node/core/developers"
-	"github.com/MinterTeam/minter-go-node/core/state/bus"
-	"github.com/MinterTeam/minter-go-node/core/state/candidates"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/rlp"
-	"github.com/MinterTeam/minter-go-node/tree"
-	"github.com/MinterTeam/minter-go-node/upgrades"
+	eventsdb "github.com/kvant-node/events-db"
+	"github.com/kvant-node/core/dao"
+	"github.com/kvant-node/core/developers"
+	"github.com/kvant-node/core/state/bus"
+	"github.com/kvant-node/core/state/candidates"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/rlp"
+	"github.com/kvant-node/tree"
 	"math/big"
 )
 
@@ -89,11 +88,7 @@ func (v *Validators) SetValidatorAbsent(height uint64, address types.TmAddress) 
 	validator.SetAbsent(height)
 
 	if validator.CountAbsentTimes() > ValidatorMaxAbsentTimes {
-		if !upgrades.IsGraceBlock(height) {
-			v.punishValidator(height, address)
-		}
-
-		v.turnValidatorOff(address)
+		v.punishValidator(height, address)
 	}
 }
 
@@ -265,6 +260,7 @@ func (v *Validators) LoadValidators() {
 	var validators []*Validator
 	if err := rlp.DecodeBytes(enc, &validators); err != nil {
 		panic(fmt.Sprintf("failed to decode validators: %s", err))
+		return
 	}
 
 	v.list = validators
@@ -312,6 +308,9 @@ func (v *Validators) uncheckDirtyValidators() {
 
 func (v *Validators) punishValidator(height uint64, tmAddress types.TmAddress) {
 	validator := v.getByTmAddress(tmAddress)
+	validator.AbsentTimes = types.NewBitArray(ValidatorMaxAbsentWindow)
+	validator.toDrop = true
+	validator.isDirty = true
 
 	totalStake := v.bus.Candidates().Punish(height, tmAddress)
 	validator.SetTotalBipStake(totalStake)
@@ -340,13 +339,4 @@ func (v *Validators) SetToDrop(pubkey types.Pubkey) {
 			val.toDrop = true
 		}
 	}
-}
-
-func (v *Validators) turnValidatorOff(tmAddress types.TmAddress) {
-	validator := v.getByTmAddress(tmAddress)
-	validator.AbsentTimes = types.NewBitArray(ValidatorMaxAbsentWindow)
-	validator.toDrop = true
-	validator.isDirty = true
-
-	v.bus.Candidates().SetOffline(v.bus.Candidates().GetCandidateByTendermintAddress(tmAddress).PubKey)
 }

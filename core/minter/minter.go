@@ -3,20 +3,18 @@ package minter
 import (
 	"bytes"
 	"fmt"
-	eventsdb "github.com/MinterTeam/events-db"
-	"github.com/MinterTeam/minter-go-node/cmd/utils"
-	"github.com/MinterTeam/minter-go-node/config"
-	"github.com/MinterTeam/minter-go-node/core/appdb"
-	"github.com/MinterTeam/minter-go-node/core/rewards"
-	"github.com/MinterTeam/minter-go-node/core/state"
-	"github.com/MinterTeam/minter-go-node/core/state/candidates"
-	"github.com/MinterTeam/minter-go-node/core/statistics"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/core/validators"
-	"github.com/MinterTeam/minter-go-node/helpers"
-	"github.com/MinterTeam/minter-go-node/upgrades"
-	"github.com/MinterTeam/minter-go-node/version"
+	eventsdb "github.com/kvant-node/events-db"
+	"github.com/kvant-node/cmd/utils"
+	"github.com/kvant-node/config"
+	"github.com/kvant-node/core/appdb"
+	"github.com/kvant-node/core/rewards"
+	"github.com/kvant-node/core/state"
+	"github.com/kvant-node/core/state/candidates"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/core/validators"
+	"github.com/kvant-node/helpers"
+	"github.com/kvant-node/version"
 	"github.com/syndtr/goleveldb/leveldb/filter"
 	"github.com/syndtr/goleveldb/leveldb/opt"
 	"github.com/tendermint/go-amino"
@@ -31,7 +29,6 @@ import (
 	"sort"
 	"sync"
 	"sync/atomic"
-	"time"
 )
 
 const (
@@ -47,13 +44,18 @@ const (
 
 var (
 	blockchain *Blockchain
+
+	dbOpts = &opt.Options{
+		OpenFilesCacheCapacity: 1024,
+		BlockCacheCapacity:     1024 / 2 * opt.MiB,
+		WriteBuffer:            1024 / 4 * opt.MiB, // Two of these are used internally
+		Filter:                 filter.NewBloomFilter(10),
+	}
 )
 
 // Main structure of Minter Blockchain
 type Blockchain struct {
 	abciTypes.BaseApplication
-
-	statisticData *statistics.Data
 
 	stateDB            db.DB
 	appDB              *appdb.AppDB
@@ -68,19 +70,18 @@ type Blockchain struct {
 	tmNode *tmNode.Node
 
 	// currentMempool is responsive for prevent sending multiple transactions from one address in one block
-	currentMempool *sync.Map
+	currentMempool sync.Map
 
 	lock sync.RWMutex
 
 	haltHeight uint64
-	cfg        *config.Config
 }
 
 // Creates Minter Blockchain instance, should be only called once
 func NewMinterBlockchain(cfg *config.Config) *Blockchain {
 	var err error
 
-	ldb, err := db.NewGoLevelDBWithOpts("state", utils.GetMinterHome()+"/data", getDbOpts(cfg.StateMemAvailable))
+	ldb, err := db.NewGoLevelDBWithOpts("state", utils.GetMinterHome()+"/data", dbOpts)
 	if err != nil {
 		panic(err)
 	}
@@ -88,7 +89,7 @@ func NewMinterBlockchain(cfg *config.Config) *Blockchain {
 	// Initiate Application DB. Used for persisting data like current block, validators, etc.
 	applicationDB := appdb.NewAppDB(cfg)
 
-	edb, err := db.NewGoLevelDBWithOpts("events", utils.GetMinterHome()+"/data", getDbOpts(1024))
+	edb, err := db.NewGoLevelDBWithOpts("events", utils.GetMinterHome()+"/data", dbOpts)
 	if err != nil {
 		panic(err)
 	}
@@ -98,8 +99,7 @@ func NewMinterBlockchain(cfg *config.Config) *Blockchain {
 		appDB:          applicationDB,
 		height:         applicationDB.GetLastHeight(),
 		eventsDB:       eventsdb.NewEventsStore(edb),
-		currentMempool: &sync.Map{},
-		cfg:            cfg,
+		currentMempool: sync.Map{},
 	}
 
 	// Set stateDeliver and stateCheck
@@ -169,18 +169,7 @@ func (app *Blockchain) BeginBlock(req abciTypes.RequestBeginBlock) abciTypes.Res
 		panic(fmt.Sprintf("Application halted at height %d", height))
 	}
 
-	app.StatisticData().SetStartBlock(height, time.Now(), req.Header.Time)
-
-	if upgrades.IsUpgradeBlock(height) {
-		var err error
-		app.stateDeliver, err = state.NewState(app.height, app.stateDB, app.eventsDB, app.cfg.KeepLastStates, app.cfg.StateCacheSize)
-		if err != nil {
-			panic(err)
-		}
-		app.stateCheck = state.NewCheckState(app.stateDeliver)
-	}
-
-	app.stateDeliver.Lock()
+	app.stateDeliver.RLock()
 
 	// compute max gas
 	app.updateBlocksTimeDelta(height, 3)
@@ -246,10 +235,6 @@ func (app *Blockchain) BeginBlock(req abciTypes.RequestBeginBlock) abciTypes.Res
 // Signals the end of a block, returns changes to the validator set
 func (app *Blockchain) EndBlock(req abciTypes.RequestEndBlock) abciTypes.ResponseEndBlock {
 	height := uint64(req.Height)
-
-	if height == upgrades.UpgradeBlock3 {
-		ApplyUpgrade3(app.stateDeliver, app.eventsDB)
-	}
 
 	var updates []abciTypes.ValidatorUpdate
 
@@ -373,8 +358,6 @@ func (app *Blockchain) EndBlock(req abciTypes.RequestEndBlock) abciTypes.Respons
 		}
 	}
 
-	defer func() { app.StatisticData().SetEndBlockDuration(time.Now(), app.height) }()
-
 	return abciTypes.ResponseEndBlock{
 		ValidatorUpdates: updates,
 		ConsensusParamUpdates: &abciTypes.ConsensusParams{
@@ -398,7 +381,7 @@ func (app *Blockchain) Info(req abciTypes.RequestInfo) (resInfo abciTypes.Respon
 
 // Deliver a tx for full processing
 func (app *Blockchain) DeliverTx(req abciTypes.RequestDeliverTx) abciTypes.ResponseDeliverTx {
-	response := transaction.RunTx(app.stateDeliver, false, req.Tx, app.rewards, app.height, &sync.Map{}, 0)
+	response := transaction.RunTx(app.stateDeliver, false, req.Tx, app.rewards, app.height, sync.Map{}, 0)
 
 	return abciTypes.ResponseDeliverTx{
 		Code:      response.Code,
@@ -461,9 +444,9 @@ func (app *Blockchain) Commit() abciTypes.ResponseCommit {
 	app.resetCheckState()
 
 	// Clear mempool
-	app.currentMempool = &sync.Map{}
+	app.currentMempool = sync.Map{}
 
-	app.stateDeliver.Unlock()
+	app.stateDeliver.RUnlock()
 
 	return abciTypes.ResponseCommit{
 		Data: hash,
@@ -616,25 +599,4 @@ func (app *Blockchain) calcMaxGas(height uint64) uint64 {
 
 func (app *Blockchain) GetEventsDB() eventsdb.IEventsDB {
 	return app.eventsDB
-}
-
-func (app *Blockchain) SetStatisticData(statisticData *statistics.Data) *statistics.Data {
-	app.statisticData = statisticData
-	return app.statisticData
-}
-
-func (app *Blockchain) StatisticData() *statistics.Data {
-	return app.statisticData
-}
-
-func getDbOpts(memLimit int) *opt.Options {
-	if memLimit < 1024 {
-		panic(fmt.Sprintf("Not enough memory given to StateDB. Expected >1024M, given %d", memLimit))
-	}
-	return &opt.Options{
-		OpenFilesCacheCapacity: memLimit,
-		BlockCacheCapacity:     memLimit / 2 * opt.MiB,
-		WriteBuffer:            memLimit / 4 * opt.MiB, // Two of these are used internally
-		Filter:                 filter.NewBloomFilter(10),
-	}
 }

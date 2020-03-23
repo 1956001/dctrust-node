@@ -21,7 +21,7 @@ func GetMinterHome() string {
 		return home
 	}
 
-	return os.ExpandEnv(filepath.Join("$HOME", ".minter"))
+	return os.ExpandEnv(filepath.Join("$HOME", ".kvant"))
 }
 
 func GetMinterConfigPath() string {

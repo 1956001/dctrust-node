@@ -18,21 +18,17 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/pkg/errors"
 
-	types "github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	types "github.com/kvant-node/rpc/lib/types"
 	"github.com/tendermint/go-amino"
 	"github.com/tendermint/tendermint/libs/log"
 )
 
 // RegisterRPCFuncs adds a route for each function in the funcMap, as well as general jsonrpc and websocket handlers for all functions.
 // "result" is the interface on which the result objects are registered, and is popualted with every RPCResponse
-func RegisterRPCFuncs(mux *http.ServeMux, funcMap map[string]*RPCFunc, cdc *amino.Codec, logger log.Logger, middleware func(f func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request)) {
+func RegisterRPCFuncs(mux *http.ServeMux, funcMap map[string]*RPCFunc, cdc *amino.Codec, logger log.Logger) {
 	// HTTP endpoints
 	for funcName, rpcFunc := range funcMap {
-		handler := makeHTTPHandler(rpcFunc, cdc, logger)
-		if middleware != nil {
-			handler = middleware(handler)
-		}
-		mux.HandleFunc("/"+funcName, handler)
+		mux.HandleFunc("/"+funcName, makeHTTPHandler(rpcFunc, cdc, logger))
 	}
 
 	// JSONRPC endpoints
@@ -347,8 +343,8 @@ func nonJSONStringToArg(cdc *amino.Codec, rt reflect.Type, arg string) (reflect.
 func _nonJSONStringToArg(cdc *amino.Codec, rt reflect.Type, arg string) (reflect.Value, error, bool) {
 	isIntString := RE_INT.Match([]byte(arg))
 	isQuotedString := strings.HasPrefix(arg, `"`) && strings.HasSuffix(arg, `"`)
-	isHexString := strings.HasPrefix(arg, "0x") || strings.HasPrefix(arg, "Mt") ||
-		strings.HasPrefix(arg, "Mp")
+	isHexString := strings.HasPrefix(arg, "0x") || strings.HasPrefix(arg, "Kt") ||
+		strings.HasPrefix(arg, "Kp")
 
 	var expectingString, expectingByteSlice, expectingInt bool
 	switch rt.Kind() {
@@ -824,6 +820,8 @@ func writeListOfEndpoints(w http.ResponseWriter, r *http.Request, funcMap map[st
 	buf := new(bytes.Buffer)
 	buf.WriteString("<html><body>")
 	buf.WriteString("<br>Available endpoints:<br>")
+        buf.WriteString("<a href=/gui/>/gui</a><br>")
+
 
 	for _, name := range noArgNames {
 		link := fmt.Sprintf("/%s", name)

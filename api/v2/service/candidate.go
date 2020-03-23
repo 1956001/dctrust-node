@@ -2,43 +2,30 @@ package service
 
 import (
 	"context"
-	"encoding/hex"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
-	"github.com/MinterTeam/minter-go-node/core/state"
-	"github.com/MinterTeam/minter-go-node/core/state/candidates"
-	"github.com/MinterTeam/minter-go-node/core/types"
+	pb "github.com/kvant-node/api/v2/api_pb"
+	"github.com/kvant-node/core/state"
+	"github.com/kvant-node/core/state/candidates"
+	"github.com/kvant-node/core/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func (s *Service) Candidate(_ context.Context, req *pb.CandidateRequest) (*pb.CandidateResponse, error) {
-	if len(req.PublicKey) < 3 {
-		return new(pb.CandidateResponse), status.Error(codes.InvalidArgument, "invalid public_key")
-	}
-	decodeString, err := hex.DecodeString(req.PublicKey[2:])
-	if err != nil {
-		return new(pb.CandidateResponse), status.Error(codes.InvalidArgument, err.Error())
-	}
-
-	pubkey := types.BytesToPubkey(decodeString)
-
 	cState, err := s.getStateForHeight(req.Height)
 	if err != nil {
 		return new(pb.CandidateResponse), status.Error(codes.NotFound, err.Error())
 	}
 
+	cState.Lock()
+	defer cState.Unlock()
+
 	if req.Height != 0 {
-		cState.Lock()
 		cState.Candidates.LoadCandidates()
-		cState.Candidates.LoadStakesOfCandidate(pubkey)
-		cState.Unlock()
+		cState.Candidates.LoadStakes()
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
-
-	candidate := cState.Candidates.GetCandidate(pubkey)
+	candidate := cState.Candidates.GetCandidate(types.BytesToPubkey([]byte(req.PublicKey)))
 	if candidate == nil {
 		return new(pb.CandidateResponse), status.Error(codes.NotFound, "Candidate not found")
 	}
@@ -58,7 +45,7 @@ func makeResponseCandidate(state *state.State, c candidates.Candidate, includeSt
 
 	if includeStakes {
 		stakes := state.Candidates.GetStakes(c.PubKey)
-		candidate.Stakes = make([]*pb.CandidateResponse_Stake, 0, len(stakes))
+		candidate.Stakes = make([]*pb.CandidateResponse_Stake, len(stakes))
 		for _, stake := range stakes {
 			candidate.Stakes = append(candidate.Stakes, &pb.CandidateResponse_Stake{
 				Owner:    stake.Owner.String(),

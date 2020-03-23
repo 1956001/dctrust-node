@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
+	"github.com/kvant-node/core/transaction"
 	"github.com/tendermint/tendermint/libs/bytes"
 	core_types "github.com/tendermint/tendermint/rpc/core/types"
 )

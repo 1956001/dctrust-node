@@ -2,9 +2,9 @@ package accounts
 
 import (
 	"bytes"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/crypto"
-	"github.com/MinterTeam/minter-go-node/rlp"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/crypto"
+	"github.com/kvant-node/rlp"
 	"math/big"
 	"sort"
 )
@@ -27,8 +27,8 @@ type Model struct {
 }
 
 type Multisig struct {
-	Threshold uint
 	Weights   []uint
+	Threshold uint
 	Addresses []types.Address
 }
 

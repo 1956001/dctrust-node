@@ -42,7 +42,7 @@ import (
 	"fmt"
 	"hash"
 
-	ethcrypto "github.com/MinterTeam/minter-go-node/crypto"
+	ethcrypto "github.com/kvant-node/crypto"
 )
 
 var (

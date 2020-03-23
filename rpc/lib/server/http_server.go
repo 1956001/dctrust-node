@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/net/netutil"
 
-	types "github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	types "github.com/kvant-node/rpc/lib/types"
 	"github.com/tendermint/tendermint/libs/log"
 )
 

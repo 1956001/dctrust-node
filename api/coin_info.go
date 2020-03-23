@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/rpc/lib/types"
 )
 
 type CoinInfoResponse struct {
@@ -20,8 +20,8 @@ func CoinInfo(coinSymbol string, height int) (*CoinInfoResponse, error) {
 		return nil, err
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Lock()
+	defer cState.Unlock()
 
 	coin := cState.Coins.GetCoin(types.StrToCoinSymbol(coinSymbol))
 	if coin == nil {

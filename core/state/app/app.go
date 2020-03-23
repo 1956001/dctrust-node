@@ -2,10 +2,10 @@ package app
 
 import (
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/state/bus"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/rlp"
-	"github.com/MinterTeam/minter-go-node/tree"
+	"github.com/kvant-node/core/state/bus"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/rlp"
+	"github.com/kvant-node/tree"
 	"math/big"
 )
 
@@ -85,6 +85,7 @@ func (v *App) get() *Model {
 	model := &Model{}
 	if err := rlp.DecodeBytes(enc, model); err != nil {
 		panic(fmt.Sprintf("failed to decode app model at: %s", err))
+		return nil
 	}
 
 	v.model = model

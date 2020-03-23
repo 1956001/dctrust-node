@@ -3,9 +3,9 @@ package checks
 import (
 	"bytes"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/check"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/tree"
+	"github.com/kvant-node/core/check"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/tree"
 	"sort"
 	"sync"
 )

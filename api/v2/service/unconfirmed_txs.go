@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
+	pb "github.com/kvant-node/api/v2/api_pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -14,7 +14,7 @@ func (s *Service) UnconfirmedTxs(_ context.Context, req *pb.UnconfirmedTxsReques
 		return new(pb.UnconfirmedTxsResponse), status.Error(codes.Internal, err.Error())
 	}
 	return &pb.UnconfirmedTxsResponse{
-		TransactionsCount: fmt.Sprintf("%d", txs.Count),
+		CountTransactions: fmt.Sprintf("%d", txs.Count),
 		TotalTransactions: fmt.Sprintf("%d", txs.Total),
 		TotalBytes:        fmt.Sprintf("%d", txs.TotalBytes),
 	}, nil

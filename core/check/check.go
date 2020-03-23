@@ -5,10 +5,10 @@ import (
 	"crypto/ecdsa"
 	"errors"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/crypto"
-	"github.com/MinterTeam/minter-go-node/crypto/sha3"
-	"github.com/MinterTeam/minter-go-node/rlp"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/crypto"
+	"github.com/kvant-node/crypto/sha3"
+	"github.com/kvant-node/rlp"
 	"math/big"
 )
 

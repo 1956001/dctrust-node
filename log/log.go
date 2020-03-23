@@ -1,7 +1,7 @@
 package log
 
 import (
-	"github.com/MinterTeam/minter-go-node/config"
+	"github.com/kvant-node/config"
 	"github.com/tendermint/tendermint/libs/cli/flags"
 	"github.com/tendermint/tendermint/libs/log"
 	"io"

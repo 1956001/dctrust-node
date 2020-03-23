@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/rpc/lib/types"
 )
 
 type MissedBlocksResponse struct {
@@ -16,14 +16,10 @@ func MissedBlocks(pubkey types.Pubkey, height int) (*MissedBlocksResponse, error
 		return nil, err
 	}
 
-	if height != 0 {
-		cState.Lock()
-		cState.Validators.LoadValidators()
-		cState.Unlock()
-	}
+	cState.Lock()
+	defer cState.Unlock()
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Validators.LoadValidators()
 
 	vals := cState.Validators.GetValidators()
 	if vals == nil {

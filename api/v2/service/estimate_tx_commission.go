@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/hex"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/formula"
+	pb "github.com/kvant-node/api/v2/api_pb"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/formula"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"math/big"
@@ -18,19 +18,15 @@ func (s *Service) EstimateTxCommission(_ context.Context, req *pb.EstimateTxComm
 		return new(pb.EstimateTxCommissionResponse), status.Error(codes.NotFound, err.Error())
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
-
-	if len(req.Tx) < 3 {
-		return new(pb.EstimateTxCommissionResponse), status.Error(codes.InvalidArgument, "invalid tx")
-	}
+	cState.Lock()
+	defer cState.Unlock()
 
 	decodeString, err := hex.DecodeString(req.Tx[2:])
 	if err != nil {
 		return new(pb.EstimateTxCommissionResponse), status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	decodedTx, err := transaction.TxDecoder.DecodeFromBytesWithoutSig(decodeString)
+	decodedTx, err := transaction.TxDecoder.DecodeFromBytes(decodeString)
 	if err != nil {
 		return new(pb.EstimateTxCommissionResponse), status.Error(codes.InvalidArgument, "Cannot decode transaction")
 	}

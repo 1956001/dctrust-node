@@ -380,7 +380,7 @@
             "in": "path",
             "required": true,
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           }
         ],
         "tags": [
@@ -493,34 +493,8 @@
       }
     },
     "/send_transaction": {
-      "post": {
-        "operationId": "SendPostTransaction",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/api_pbSendTransactionResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/api_pbSendTransactionRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ApiService"
-        ]
-      }
-    },
-    "/send_transaction/{tx}": {
       "get": {
-        "operationId": "SendGetTransaction",
+        "operationId": "SendTransaction",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -532,8 +506,8 @@
         "parameters": [
           {
             "name": "tx",
-            "in": "path",
-            "required": true,
+            "in": "query",
+            "required": false,
             "type": "string"
           }
         ],
@@ -974,6 +948,17 @@
         }
       }
     },
+    "StatusResponsePubKey": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
     "api_pbAddressResponse": {
       "type": "object",
       "properties": {
@@ -983,7 +968,7 @@
             "type": "string"
           }
         },
-        "transactions_count": {
+        "count_transactions": {
           "type": "string"
         }
       }
@@ -1011,7 +996,7 @@
             "type": "string"
           }
         },
-        "transactions_count": {
+        "count_transactions": {
           "type": "string"
         }
       }
@@ -1028,7 +1013,7 @@
         "time": {
           "type": "string"
         },
-        "transactions_count": {
+        "count_transactions": {
           "type": "string"
         },
         "transactions": {
@@ -1193,7 +1178,10 @@
           "type": "string"
         },
         "value": {
-          "type": "object"
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     },
@@ -1297,14 +1285,6 @@
         }
       }
     },
-    "api_pbSendTransactionRequest": {
-      "type": "object",
-      "properties": {
-        "tx": {
-          "type": "string"
-        }
-      }
-    },
     "api_pbSendTransactionResponse": {
       "type": "object",
       "properties": {
@@ -1348,10 +1328,7 @@
           "format": "boolean"
         },
         "public_key": {
-          "type": "string"
-        },
-        "node_id": {
-          "type": "string"
+          "$ref": "#/definitions/StatusResponsePubKey"
         }
       }
     },
@@ -1454,7 +1431,7 @@
     "api_pbUnconfirmedTxsResponse": {
       "type": "object",
       "properties": {
-        "transactions_count": {
+        "count_transactions": {
           "type": "string"
         },
         "total_transactions": {

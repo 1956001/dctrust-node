@@ -2,9 +2,9 @@ package service
 
 import (
 	"bytes"
-	"github.com/MinterTeam/minter-go-node/config"
-	"github.com/MinterTeam/minter-go-node/core/minter"
-	"github.com/MinterTeam/minter-go-node/core/state"
+	"github.com/kvant-node/config"
+	"github.com/kvant-node/core/minter"
+	"github.com/kvant-node/core/state"
 	"github.com/golang/protobuf/jsonpb"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	"github.com/tendermint/go-amino"

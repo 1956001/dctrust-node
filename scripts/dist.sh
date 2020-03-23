@@ -21,7 +21,7 @@ mkdir -p build/pkg
 
 # Get the git commit
 GIT_COMMIT="$(git rev-parse --short=8 HEAD)"
-GIT_IMPORT="github.com/MinterTeam/minter-go-node/version"
+GIT_IMPORT="github.com/kvant-node/version"
 
 # Make sure build tools are available.
 make get_tools
@@ -35,10 +35,10 @@ make get_vendor_deps
 # ldflags: -s Omit the symbol table and debug information.
 #	         -w Omit the DWARF symbol table.
 echo "==> Building for mac os..."
-CGO_ENABLED=1 go build -tags "minter gcc" -ldflags "-s -w -X ${GIT_IMPORT}.GitCommit=${GIT_COMMIT}" -o "build/pkg/darwin_amd64/minter" ./cmd/minter
+CGO_ENABLED=1 CGO_LDFLAGS="-lsnappy" go build -tags "minter gcc" -ldflags "-s -w -X ${GIT_IMPORT}.GitCommit=${GIT_COMMIT}" -o "build/pkg/darwin_amd64/minter" ./cmd/minter
 
 echo "==> Building for linux in docker"
-docker run -t -v ${PWD}:/go/src/github.com/MinterTeam/minter-go-node/ -i minter-builder-1:latest sh -c 'CGO_ENABLED=1 go build -tags "minter gcc" -ldflags "-s -w -X ${GIT_IMPORT}.GitCommit=${GIT_COMMIT}" -o "build/pkg/linux_amd64/minter" ./cmd/minter/'
+docker run -t -v ${PWD}:/go/src/github.com/kvant-node/ -i f4938e2f152b sh -c 'CGO_ENABLED=1 CGO_LDFLAGS="-lsnappy" go build -tags "minter gcc" -ldflags "-s -w -X ${GIT_IMPORT}.GitCommit=${GIT_COMMIT}" -o "build/pkg/linux_amd64/minter" ./cmd/minter/'
 
 # Zip all the files.
 echo "==> Packaging..."

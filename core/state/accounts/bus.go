@@ -1,7 +1,7 @@
 package accounts
 
 import (
-	"github.com/MinterTeam/minter-go-node/core/types"
+	"github.com/kvant-node/core/types"
 	"math/big"
 )
 

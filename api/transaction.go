@@ -2,8 +2,8 @@ package api
 
 import (
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/rpc/lib/types"
 	"github.com/tendermint/tendermint/libs/bytes"
 )
 

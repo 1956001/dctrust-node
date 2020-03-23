@@ -2,36 +2,26 @@ package service
 
 import (
 	"context"
-	"encoding/hex"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
-	"github.com/MinterTeam/minter-go-node/core/types"
+	pb "github.com/kvant-node/api/v2/api_pb"
+	"github.com/kvant-node/core/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func (s *Service) Address(_ context.Context, req *pb.AddressRequest) (*pb.AddressResponse, error) {
-	if len(req.Address) < 3 {
-		return new(pb.AddressResponse), status.Error(codes.InvalidArgument, "invalid address")
-	}
-
-	decodeString, err := hex.DecodeString(req.Address[2:])
-	if err != nil {
-		return new(pb.AddressResponse), status.Error(codes.InvalidArgument, err.Error())
-	}
-
 	cState, err := s.getStateForHeight(req.Height)
 	if err != nil {
 		return new(pb.AddressResponse), status.Error(codes.NotFound, err.Error())
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Lock()
+	defer cState.Unlock()
 
-	address := types.BytesToAddress(decodeString)
+	address := types.StringToAddress(req.Address)
 	response := &pb.AddressResponse{
 		Balance:           make(map[string]string),
-		TransactionsCount: fmt.Sprintf("%d", cState.Accounts.GetNonce(address)),
+		CountTransactions: fmt.Sprintf("%d", cState.Accounts.GetNonce(address)),
 	}
 
 	balances := cState.Accounts.GetBalances(address)

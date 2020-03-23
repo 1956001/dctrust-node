@@ -1,11 +1,11 @@
 package api
 
 import (
-	"github.com/MinterTeam/minter-go-node/core/commissions"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/formula"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	"github.com/kvant-node/core/commissions"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/formula"
+	"github.com/kvant-node/rpc/lib/types"
 	"math/big"
 )
 
@@ -21,8 +21,8 @@ func EstimateCoinSellAll(
 		return nil, err
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Lock()
+	defer cState.Unlock()
 
 	if gasPrice < 1 {
 		gasPrice = 1

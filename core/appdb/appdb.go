@@ -3,8 +3,8 @@ package appdb
 import (
 	"encoding/binary"
 	"errors"
-	"github.com/MinterTeam/minter-go-node/cmd/utils"
-	"github.com/MinterTeam/minter-go-node/config"
+	"github.com/kvant-node/cmd/utils"
+	"github.com/kvant-node/config"
 	"github.com/tendermint/go-amino"
 	"github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tm-db"

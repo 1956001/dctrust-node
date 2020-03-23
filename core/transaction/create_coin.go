@@ -4,11 +4,11 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/code"
-	"github.com/MinterTeam/minter-go-node/core/state"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/formula"
-	"github.com/MinterTeam/minter-go-node/helpers"
+	"github.com/kvant-node/core/code"
+	"github.com/kvant-node/core/state"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/formula"
+	"github.com/kvant-node/helpers"
 	"github.com/tendermint/tendermint/libs/kv"
 	"math/big"
 	"regexp"
@@ -21,7 +21,6 @@ const allowedCoinSymbols = "^[A-Z0-9]{3,10}$"
 var (
 	minCoinSupply  = helpers.BipToPip(big.NewInt(1))
 	minCoinReserve = helpers.BipToPip(big.NewInt(10000))
-	maxCoinSupply  = big.NewInt(0).Exp(big.NewInt(10), big.NewInt(15+18), nil)
 )
 
 type CreateCoinData struct {
@@ -92,10 +91,11 @@ func (data CreateCoinData) BasicCheck(tx *Transaction, context *state.State) *Re
 			Log:  fmt.Sprintf("Coin supply should be between %s and %s", minCoinSupply.String(), data.MaxSupply.String())}
 	}
 
-	if data.MaxSupply.Cmp(maxCoinSupply) == 1 {
+	MaxCoinSupply := big.NewInt(0).Exp(big.NewInt(10), big.NewInt(15+18), nil)
+	if data.MaxSupply.Cmp(MaxCoinSupply) == 1 {
 		return &Response{
 			Code: code.WrongCoinSupply,
-			Log:  fmt.Sprintf("Max coin supply should be less than %s", maxCoinSupply)}
+			Log:  fmt.Sprintf("Max coin supply should be less than %s", MaxCoinSupply)}
 	}
 
 	if data.InitialReserve.Cmp(minCoinReserve) == -1 {

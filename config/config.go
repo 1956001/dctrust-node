@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/cmd/utils"
+	"github.com/kvant-node/cmd/utils"
 	tmConfig "github.com/tendermint/tendermint/config"
 	"os"
 	"path/filepath"
@@ -37,10 +37,7 @@ var (
 func DefaultConfig() *Config {
 	cfg := defaultConfig()
 
-	cfg.P2P.Seeds = "25104d4b173d1047e9d1a70cdefde9e30707beb1@84.201.143.192:26656," +
-		"1e1c6149451d2a7c1072523e49cab658080d9bd2@minter-nodes-1.mainnet.btcsecure.io:26656," +
-		"8ee270d29cc7221a61ab4c93121efba9ba83a943@minter-node-1.rundax.com:26656," +
-		"bab220855eb9625ea547f1ef1d11692c60a7a406@138.201.28.219:26656"
+	cfg.P2P.Seeds = "11268f919ef241907594af4da60d64b56ca23339@seed-testnet.kvant.io:12255"
 
 	cfg.TxIndex = &tmConfig.TxIndexConfig{
 		Indexer:      "kv",
@@ -61,11 +58,13 @@ func DefaultConfig() *Config {
 	cfg.Consensus.TimeoutPrevoteDelta = 500 * time.Millisecond   // timeout_prevote_delta = how much the timeout_prevote increases with each round
 	cfg.Consensus.TimeoutPrecommit = 1 * time.Second             // timeout_precommit = how long we wait after receiving +2/3 precommits for "anything" (ie. not a single block or nil)
 	cfg.Consensus.TimeoutPrecommitDelta = 500 * time.Millisecond // timeout_precommit_delta = how much the timeout_precommit increases with each round
-	cfg.Consensus.TimeoutCommit = 4200 * time.Millisecond        // timeout_commit = how long we wait after committing a block, before starting on the new height (this gives us a chance to receive some more precommits, even though we already have +2/3)
+	cfg.Consensus.TimeoutCommit = 2900 * time.Millisecond        // timeout_commit = how long we wait after committing a block, before starting on the new height (this gives us a chance to receive some more precommits, even though we already have +2/3)
 
 	cfg.P2P.RecvRate = 15360000 // 15 mB/s
 	cfg.P2P.SendRate = 15360000 // 15 mB/s
 	cfg.P2P.FlushThrottleTimeout = 10 * time.Millisecond
+
+	cfg.P2P.ListenAddress = "tcp://0.0.0.0:12255"
 
 	cfg.PrivValidatorKey = "config/priv_validator.json"
 	cfg.PrivValidatorState = "config/priv_validator_state.json"
@@ -227,12 +226,6 @@ type BaseConfig struct {
 	// Address to listen for API connections
 	APIListenAddress string `mapstructure:"api_listen_addr"`
 
-	// Address to listen for gRPC connections
-	GRPCListenAddress string `mapstructure:"grpc_listen_addr"`
-
-	// Address to listen for API v2 connections
-	APIv2ListenAddress string `mapstructure:"api_v2_listen_addr"`
-
 	ValidatorMode bool `mapstructure:"validator_mode"`
 
 	KeepLastStates int64 `mapstructure:"keep_last_states"`
@@ -242,8 +235,6 @@ type BaseConfig struct {
 	LogPath string `mapstructure:"log_path"`
 
 	StateCacheSize int `mapstructure:"state_cache_size"`
-
-	StateMemAvailable int `mapstructure:"state_mem_available"`
 
 	HaltHeight int `mapstructure:"halt_height"`
 }
@@ -262,13 +253,10 @@ func DefaultBaseConfig() BaseConfig {
 		FilterPeers:             false,
 		DBBackend:               "goleveldb",
 		DBPath:                  "data",
-		APIListenAddress:        "tcp://0.0.0.0:8841",
-		GRPCListenAddress:       "tcp://0.0.0.0:8842",
-		APIv2ListenAddress:      "tcp://0.0.0.0:8843",
+		APIListenAddress:        "tcp://0.0.0.0:12000",
 		ValidatorMode:           false,
 		KeepLastStates:          120,
 		StateCacheSize:          1000000,
-		StateMemAvailable:       1024,
 		APISimultaneousRequests: 100,
 		LogPath:                 "stdout",
 		LogFormat:               LogFormatPlain,
@@ -311,7 +299,7 @@ func DefaultLogLevel() string {
 // DefaultPackageLogLevels returns a default log level setting so all packages
 // log at "error", while the `state` and `main` packages log at "info"
 func DefaultPackageLogLevels() string {
-	return fmt.Sprintf("consensus:info,main:info,state:info,*:%s", DefaultLogLevel())
+	return fmt.Sprintf("consensus:info,main:info,blockchain:info,state:info,*:%s", DefaultLogLevel())
 }
 
 //-----------------------------------------------------------------------------

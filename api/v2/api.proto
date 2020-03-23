@@ -73,10 +73,13 @@ message StatusResponse {
     string latest_app_hash = 2;
     string latest_block_height = 3;
     string latest_block_time = 4;
+    message PubKey {
+        string type = 2;
+        string value = 1;
+    }
     string keep_last_states = 5;
     bool catching_up = 6;
-    string public_key = 7;
-    string node_id = 9;
+    PubKey public_key = 7;
 }
 message GenesisResponse {
     string genesis_time = 1;
@@ -114,7 +117,7 @@ message BlockResponse {
     string hash = 1;
     string height = 2;
     string time = 3;
-    string transactions_count = 4;
+    string count_transactions = 4;
 
     message Transaction {
         string hash = 1;
@@ -167,7 +170,7 @@ message AddressRequest {
 }
 message AddressResponse {
     map<string, string> balance = 1;
-    string transactions_count = 2;
+    string count_transactions = 2;
 }
 
 message AddressesRequest {
@@ -178,7 +181,7 @@ message AddressesResponse {
     message Result {
         string address = 1;
         map<string, string> balance = 2;
-        string transactions_count = 3;
+        string count_transactions = 3;
     }
     repeated Result addresses = 3;
 }
@@ -304,12 +307,12 @@ message EstimateTxCommissionRequest {
 }
 
 message EventsRequest {
-    uint32 height = 1;
+    int32 height = 1;
 }
 message EventsResponse {
     message Event {
         string type = 1;
-        google.protobuf.Struct value = 2;
+        map<string, string> value = 2;
     }
     repeated Event events = 1;
 }
@@ -324,7 +327,7 @@ message MissedBlocksResponse {
 }
 
 message UnconfirmedTxsResponse {
-    string transactions_count = 1;
+    string count_transactions = 1;
     string total_transactions = 2;
     string total_bytes = 3;
     repeated string transactions = 4;
@@ -453,15 +456,9 @@ service ApiService {
             get: "/missed_blocks/{public_key}"
         };
     }
-    rpc SendGetTransaction (SendTransactionRequest) returns (SendTransactionResponse) {
+    rpc SendTransaction (SendTransactionRequest) returns (SendTransactionResponse) {
         option (google.api.http) = {
-            get: "/send_transaction/{tx}"
-        };
-    }
-    rpc SendPostTransaction (SendTransactionRequest) returns (SendTransactionResponse) {
-        option (google.api.http) = {
-            post: "/send_transaction"
-            body: "*"
+            get: "/send_transaction"
         };
     }
     rpc Transaction (TransactionRequest) returns (TransactionResponse) {

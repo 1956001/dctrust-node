@@ -3,19 +3,19 @@ package state
 import (
 	"encoding/hex"
 	"fmt"
-	eventsdb "github.com/MinterTeam/events-db"
-	"github.com/MinterTeam/minter-go-node/core/state/accounts"
-	"github.com/MinterTeam/minter-go-node/core/state/app"
-	"github.com/MinterTeam/minter-go-node/core/state/bus"
-	"github.com/MinterTeam/minter-go-node/core/state/candidates"
-	"github.com/MinterTeam/minter-go-node/core/state/checker"
-	"github.com/MinterTeam/minter-go-node/core/state/checks"
-	"github.com/MinterTeam/minter-go-node/core/state/coins"
-	"github.com/MinterTeam/minter-go-node/core/state/frozenfunds"
-	"github.com/MinterTeam/minter-go-node/core/state/validators"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/helpers"
-	"github.com/MinterTeam/minter-go-node/tree"
+	eventsdb "github.com/kvant-node/events-db"
+	"github.com/kvant-node/core/state/accounts"
+	"github.com/kvant-node/core/state/app"
+	"github.com/kvant-node/core/state/bus"
+	"github.com/kvant-node/core/state/candidates"
+	"github.com/kvant-node/core/state/checker"
+	"github.com/kvant-node/core/state/checks"
+	"github.com/kvant-node/core/state/coins"
+	"github.com/kvant-node/core/state/frozenfunds"
+	"github.com/kvant-node/core/state/validators"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/helpers"
+	"github.com/kvant-node/tree"
 	db "github.com/tendermint/tm-db"
 	"math/big"
 	"sync"
@@ -151,7 +151,7 @@ func (s *State) Import(state types.AppState) error {
 
 	for _, a := range state.Accounts {
 		if a.MultisigData != nil {
-			s.Accounts.CreateMultisig(a.MultisigData.Weights, a.MultisigData.Addresses, a.MultisigData.Threshold, 1)
+			s.Accounts.CreateMultisig(a.MultisigData.Weights, a.MultisigData.Addresses, a.MultisigData.Threshold)
 		}
 
 		s.Accounts.SetNonce(a.Address, a.Nonce)

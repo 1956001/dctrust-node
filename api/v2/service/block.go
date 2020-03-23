@@ -5,10 +5,10 @@ import (
 	"context"
 	"encoding/hex"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
-	"github.com/MinterTeam/minter-go-node/core/rewards"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/core/types"
+	pb "github.com/kvant-node/api/v2/api_pb"
+	"github.com/kvant-node/core/rewards"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/core/types"
 	core_types "github.com/tendermint/tendermint/rpc/core/types"
 	tmTypes "github.com/tendermint/tendermint/types"
 	"google.golang.org/grpc/codes"
@@ -98,7 +98,7 @@ func (s *Service) Block(_ context.Context, req *pb.BlockRequest) (*pb.BlockRespo
 			}
 
 			validators = append(validators, &pb.BlockResponse_Validator{
-				PublicKey: fmt.Sprintf("Mp%x", tmval.PubKey.Bytes()[5:]),
+				PublicKey: fmt.Sprintf("Kp%x", tmval.PubKey.Bytes()[5:]),
 				Signed:    signed,
 			})
 		}
@@ -117,10 +117,10 @@ func (s *Service) Block(_ context.Context, req *pb.BlockRequest) (*pb.BlockRespo
 		Hash:              hex.EncodeToString(block.Block.Hash()),
 		Height:            fmt.Sprintf("%d", block.Block.Height),
 		Time:              block.Block.Time.Format(time.RFC3339Nano),
-		TransactionsCount: fmt.Sprintf("%d", len(block.Block.Txs)),
+		CountTransactions: fmt.Sprintf("%d", len(block.Block.Txs)),
 		Transactions:      txs,
 		BlockReward:       rewards.GetRewardForBlock(uint64(req.Height)).String(),
-		Size:              fmt.Sprintf("%d", len(s.cdc.MustMarshalBinaryLengthPrefixed(block))),
+		Size:              fmt.Sprintf("%d", s.cdc.MustMarshalBinaryLengthPrefixed(block)),
 		Proposer:          proposer,
 		Validators:        validators,
 		Evidence: &pb.BlockResponse_Evidence{

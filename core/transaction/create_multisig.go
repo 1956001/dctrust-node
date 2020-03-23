@@ -4,12 +4,12 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/code"
-	"github.com/MinterTeam/minter-go-node/core/commissions"
-	"github.com/MinterTeam/minter-go-node/core/state"
-	"github.com/MinterTeam/minter-go-node/core/state/accounts"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/formula"
+	"github.com/kvant-node/core/code"
+	"github.com/kvant-node/core/commissions"
+	"github.com/kvant-node/core/state"
+	"github.com/kvant-node/core/state/accounts"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/formula"
 	"github.com/tendermint/tendermint/libs/kv"
 	"math/big"
 	"strconv"
@@ -68,17 +68,6 @@ func (data CreateMultisigData) BasicCheck(tx *Transaction, context *state.State)
 				Code: code.IncorrectWeights,
 				Log:  fmt.Sprintf("Incorrect multisig weights")}
 		}
-	}
-
-	usedAddresses := map[types.Address]bool{}
-	for _, address := range data.Addresses {
-		if usedAddresses[address] {
-			return &Response{
-				Code: code.DuplicatedAddresses,
-				Log:  fmt.Sprintf("Duplicated multisig addresses")}
-		}
-
-		usedAddresses[address] = true
 	}
 
 	return nil
@@ -144,7 +133,7 @@ func (data CreateMultisigData) Run(tx *Transaction, context *state.State, isChec
 		Addresses: data.Addresses,
 	}).Address()
 
-	if context.Accounts.ExistsMultisig(msigAddress) {
+	if context.Accounts.Exists(msigAddress) {
 		return Response{
 			Code: code.MultisigExists,
 			Log:  fmt.Sprintf("Multisig %s already exists", msigAddress.String()),
@@ -163,7 +152,7 @@ func (data CreateMultisigData) Run(tx *Transaction, context *state.State, isChec
 		context.Accounts.SubBalance(sender, tx.GasCoin, commission)
 		context.Accounts.SetNonce(sender, tx.Nonce)
 
-		context.Accounts.CreateMultisig(data.Weights, data.Addresses, data.Threshold, currentBlock)
+		context.Accounts.CreateMultisig(data.Weights, data.Addresses, data.Threshold)
 	}
 
 	tags := kv.Pairs{

@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
-	"github.com/MinterTeam/minter-go-node/core/types"
+	pb "github.com/kvant-node/api/v2/api_pb"
+	"github.com/kvant-node/core/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

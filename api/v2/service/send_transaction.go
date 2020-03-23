@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/hex"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
-	"github.com/MinterTeam/minter-go-node/core/code"
+	pb "github.com/kvant-node/api/v2/api_pb"
+	"github.com/kvant-node/core/code"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/bytes"
 	"github.com/tendermint/tendermint/mempool"
@@ -14,14 +14,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *Service) SendPostTransaction(ctx context.Context, req *pb.SendTransactionRequest) (*pb.SendTransactionResponse, error) {
-	return s.SendGetTransaction(ctx, req)
-}
-
-func (s *Service) SendGetTransaction(_ context.Context, req *pb.SendTransactionRequest) (*pb.SendTransactionResponse, error) {
-	if len(req.Tx) < 3 {
-		return new(pb.SendTransactionResponse), status.Error(codes.InvalidArgument, "invalid tx")
-	}
+func (s *Service) SendTransaction(_ context.Context, req *pb.SendTransactionRequest) (*pb.SendTransactionResponse, error) {
 	decodeString, err := hex.DecodeString(req.Tx[2:])
 	if err != nil {
 		return new(pb.SendTransactionResponse), status.Error(codes.InvalidArgument, err.Error())

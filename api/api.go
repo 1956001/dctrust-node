@@ -2,11 +2,11 @@ package api
 
 import (
 	"fmt"
-	eventsdb "github.com/MinterTeam/events-db"
-	"github.com/MinterTeam/minter-go-node/config"
-	"github.com/MinterTeam/minter-go-node/core/minter"
-	"github.com/MinterTeam/minter-go-node/core/state"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/server"
+	eventsdb "github.com/kvant-node/events-db"
+	"github.com/kvant-node/config"
+	"github.com/kvant-node/core/minter"
+	"github.com/kvant-node/core/state"
+	"github.com/kvant-node/rpc/lib/server"
 	"github.com/rs/cors"
 	"github.com/tendermint/go-amino"
 	"github.com/tendermint/tendermint/crypto"
@@ -55,16 +55,6 @@ var Routes = map[string]*rpcserver.RPCFunc{
 	"missed_blocks":          rpcserver.NewRPCFunc(MissedBlocks, "pub_key,height"),
 }
 
-func responseTime(b *minter.Blockchain) func(f func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
-	return func(f func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
-		return func(w http.ResponseWriter, r *http.Request) {
-			start := time.Now()
-			f(w, r)
-			b.StatisticData().SetApiTime(time.Now().Sub(start), r.URL.Path)
-		}
-	}
-}
-
 func RunAPI(b *minter.Blockchain, tmRPC *rpc.Local, cfg *config.Config, logger log.Logger) {
 	minterCfg = cfg
 	RegisterCryptoAmino(cdc)
@@ -76,8 +66,7 @@ func RunAPI(b *minter.Blockchain, tmRPC *rpc.Local, cfg *config.Config, logger l
 	waitForTendermint()
 
 	m := http.NewServeMux()
-
-	rpcserver.RegisterRPCFuncs(m, Routes, cdc, logger.With("module", "rpc"), responseTime(b))
+	rpcserver.RegisterRPCFuncs(m, Routes, cdc, logger.With("module", "rpc"))
 	listener, err := rpcserver.Listen(cfg.APIListenAddress, rpcserver.Config{
 		MaxOpenConnections: cfg.APISimultaneousRequests,
 	})
@@ -102,11 +91,11 @@ func Handler(h http.Handler) http.Handler {
 
 		for key, value := range query {
 			val := value[0]
-			if strings.HasPrefix(val, "Mx") {
+			if strings.HasPrefix(val, "Kx") {
 				query.Set(key, fmt.Sprintf("\"%s\"", val))
 			}
 
-			if strings.HasPrefix(val, "Mp") {
+			if strings.HasPrefix(val, "Kp") {
 				query.Set(key, fmt.Sprintf("\"%s\"", val))
 			}
 		}

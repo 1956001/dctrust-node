@@ -1,10 +1,12 @@
 GOTOOLS = \
 	github.com/mitchellh/gox \
+	github.com/golang/dep/cmd/dep \
 	github.com/alecthomas/gometalinter \
-	github.com/gogo/protobuf/protoc-gen-gogo
+	github.com/gogo/protobuf/protoc-gen-gogo \
+	github.com/gobuffalo/packr/packr
 PACKAGES=$(shell go list ./... | grep -v '/vendor/')
-BUILD_TAGS?=minter
-BUILD_FLAGS=-ldflags "-s -w -X minter/version.GitCommit=`git rev-parse --short=8 HEAD`"
+BUILD_TAGS?=kvant
+BUILD_FLAGS=-ldflags "-s -w -X kvant/version.GitCommit=`git rev-parse --short=8 HEAD`"
 
 all: check build test install
 
@@ -16,20 +18,20 @@ docker: build_docker
 ### Build
 
 build:
-	CGO_ENABLED=0 go build $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/minter ./cmd/minter/
+	CGO_ENABLED=0 go build $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' -o build/kvant ./cmd/kvant/
 
 build_c:
-	CGO_ENABLED=1 go build $(BUILD_FLAGS) -tags '$(BUILD_TAGS) gcc cleveldb' -o build/minter ./cmd/minter/
+	CGO_ENABLED=1 go build $(BUILD_FLAGS) -tags '$(BUILD_TAGS) gcc cleveldb' -o build/kvant ./cmd/kvant/
 
 install:
-	CGO_ENABLED=0 go install $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' ./cmd/minter
+	CGO_ENABLED=0 go install $(BUILD_FLAGS) -tags '$(BUILD_TAGS)' ./cmd/kvant
 
 
 ########################################
 ### Tools & dependencies
 
 test:
-	CGO_ENABLED=1 go test --count 1 --tags "gcc" ./...
+	CGO_ENABLED=1 CGO_LDFLAGS="-lsnappy" go test --count 1 --tags "gcc cleveldb" ./...
 
 check_tools:
 	@# https://stackoverflow.com/a/25668869
@@ -95,11 +97,6 @@ metalinter_all:
 	@echo "--> Running linter (all)"
 	gometalinter.v2 --vendor --deadline=600s --enable-all --disable=lll ./...
 
-###########################################################
-### Docker image
-
-build_docker:
-	docker build . --tag minter-go-node:local
 
 ###########################################################
 ### Local testnet using docker
@@ -109,4 +106,4 @@ build-linux:
 	GOOS=linux GOARCH=amd64 $(MAKE) build
 
 build-compress:
-	upx build/minter
+	upx build/kvant

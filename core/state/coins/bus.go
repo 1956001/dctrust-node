@@ -1,8 +1,8 @@
 package coins
 
 import (
-	"github.com/MinterTeam/minter-go-node/core/state/bus"
-	"github.com/MinterTeam/minter-go-node/core/types"
+	"github.com/kvant-node/core/state/bus"
+	"github.com/kvant-node/core/types"
 	"math/big"
 )
 

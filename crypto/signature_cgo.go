@@ -22,8 +22,8 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/crypto/secp256k1"
-	"github.com/MinterTeam/minter-go-node/math"
+	"github.com/kvant-node/crypto/secp256k1"
+	"github.com/kvant-node/math"
 )
 
 // Ecrecover returns the uncompressed public key that created the given signature.

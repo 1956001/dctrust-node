@@ -3,9 +3,9 @@ package transaction
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/code"
-	"github.com/MinterTeam/minter-go-node/core/state"
-	"github.com/MinterTeam/minter-go-node/core/types"
+	"github.com/kvant-node/core/code"
+	"github.com/kvant-node/core/state"
+	"github.com/kvant-node/core/types"
 	"github.com/tendermint/tendermint/libs/kv"
 	"math/big"
 	"sync"
@@ -39,7 +39,7 @@ func RunTx(context *state.State,
 	rawTx []byte,
 	rewardPool *big.Int,
 	currentBlock uint64,
-	currentMempool *sync.Map,
+	currentMempool sync.Map,
 	minGasPrice uint32) Response {
 	lenRawTx := len(rawTx)
 	if lenRawTx > maxTxLength {

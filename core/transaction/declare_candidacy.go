@@ -4,12 +4,12 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/code"
-	"github.com/MinterTeam/minter-go-node/core/commissions"
-	"github.com/MinterTeam/minter-go-node/core/state"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/core/validators"
-	"github.com/MinterTeam/minter-go-node/formula"
+	"github.com/kvant-node/core/code"
+	"github.com/kvant-node/core/commissions"
+	"github.com/kvant-node/core/state"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/core/validators"
+	"github.com/kvant-node/formula"
 	"github.com/tendermint/tendermint/libs/kv"
 	"math/big"
 	"strconv"
@@ -105,7 +105,7 @@ func (data DeclareCandidacyData) Run(tx *Transaction, context *state.State, isCh
 
 	maxCandidatesCount := validators.GetCandidatesCountForBlock(currentBlock)
 
-	if context.Candidates.Count() >= maxCandidatesCount && !context.Candidates.IsNewCandidateStakeSufficient(data.Coin, data.Stake, maxCandidatesCount) {
+	if context.Candidates.Count() >= maxCandidatesCount && !context.Candidates.IsNewCandidateStakeSufficient(data.Coin, data.Stake) {
 		return Response{
 			Code: code.TooLowStake,
 			Log:  fmt.Sprintf("Given stake is too low")}

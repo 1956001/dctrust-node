@@ -1,11 +1,9 @@
 package service
 
 import (
-	"bytes"
 	"context"
-	"encoding/hex"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
+	pb "github.com/kvant-node/api/v2/api_pb"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -16,14 +14,10 @@ func (s *Service) MissedBlocks(_ context.Context, req *pb.MissedBlocksRequest) (
 		return new(pb.MissedBlocksResponse), status.Error(codes.NotFound, err.Error())
 	}
 
-	if req.Height != 0 {
-		cState.Lock()
-		cState.Validators.LoadValidators()
-		cState.Unlock()
-	}
+	cState.Lock()
+	defer cState.Unlock()
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Validators.LoadValidators()
 
 	vals := cState.Validators.GetValidators()
 	if vals == nil {
@@ -31,14 +25,7 @@ func (s *Service) MissedBlocks(_ context.Context, req *pb.MissedBlocksRequest) (
 	}
 
 	for _, val := range vals {
-		if len(req.PublicKey) < 3 {
-			return new(pb.MissedBlocksResponse), status.Error(codes.InvalidArgument, "invalid public_key")
-		}
-		decodeString, err := hex.DecodeString(req.PublicKey[2:])
-		if err != nil {
-			return new(pb.MissedBlocksResponse), status.Error(codes.InvalidArgument, err.Error())
-		}
-		if bytes.Compare(val.PubKey[:], decodeString) == 0 {
+		if string(val.PubKey[:]) == req.PublicKey {
 			return &pb.MissedBlocksResponse{
 				MissedBlocks:      val.AbsentTimes.String(),
 				MissedBlocksCount: fmt.Sprintf("%d", val.CountAbsentTimes()),

@@ -10,8 +10,8 @@ import (
 	"bytes"
 	"math/big"
 
-	cloudflare "github.com/MinterTeam/minter-go-node/crypto/bn256/cloudflare"
-	google "github.com/MinterTeam/minter-go-node/crypto/bn256/google"
+	cloudflare "github.com/kvant-node/crypto/bn256/cloudflare"
+	google "github.com/kvant-node/crypto/bn256/google"
 )
 
 // FuzzAdd fuzzez bn256 addition between the Google and Cloudflare libraries.

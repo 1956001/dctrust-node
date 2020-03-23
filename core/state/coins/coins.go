@@ -3,10 +3,10 @@ package coins
 import (
 	"bytes"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/state/bus"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/rlp"
-	"github.com/MinterTeam/minter-go-node/tree"
+	"github.com/kvant-node/core/state/bus"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/rlp"
+	"github.com/kvant-node/tree"
 	"math/big"
 	"sort"
 	"sync"
@@ -155,6 +155,7 @@ func (c *Coins) get(symbol types.CoinSymbol) *Model {
 	coin := &Model{}
 	if err := rlp.DecodeBytes(enc, coin); err != nil {
 		panic(fmt.Sprintf("failed to decode coin at %s: %s", symbol.String(), err))
+		return nil
 	}
 
 	coin.symbol = symbol

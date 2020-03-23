@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
+	pb "github.com/kvant-node/api/v2/api_pb"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -24,7 +24,9 @@ func (s *Service) Status(context.Context, *empty.Empty) (*pb.StatusResponse, err
 		LatestBlockTime:   result.SyncInfo.LatestBlockTime.Format(time.RFC3339Nano),
 		KeepLastStates:    fmt.Sprintf("%d", s.minterCfg.BaseConfig.KeepLastStates),
 		CatchingUp:        result.SyncInfo.CatchingUp,
-		PublicKey:         fmt.Sprintf("Mp%x", result.ValidatorInfo.PubKey.Bytes()[5:]),
-		NodeId:            string(result.NodeInfo.ID()),
+		PublicKey: &pb.StatusResponse_PubKey{
+			//Type:  "todo",
+			Value: fmt.Sprintf("Kp%x", result.ValidatorInfo.PubKey.Bytes()[5:]),
+		},
 	}, nil
 }

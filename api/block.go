@@ -5,10 +5,10 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/rewards"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	"github.com/kvant-node/core/rewards"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/rpc/lib/types"
 	core_types "github.com/tendermint/tendermint/rpc/core/types"
 	tmTypes "github.com/tendermint/tendermint/types"
 	"time"
@@ -19,6 +19,7 @@ type BlockResponse struct {
 	Height       int64                      `json:"height"`
 	Time         time.Time                  `json:"time"`
 	NumTxs       int64                      `json:"num_txs"`
+	TotalTxs     int64                      `json:"total_txs"`
 	Transactions []BlockTransactionResponse `json:"transactions"`
 	BlockReward  string                     `json:"block_reward"`
 	Size         int                        `json:"size"`
@@ -94,7 +95,7 @@ func Block(height int64) (*BlockResponse, error) {
 		}
 
 		txs[i] = BlockTransactionResponse{
-			Hash:        fmt.Sprintf("Mt%x", rawTx.Hash()),
+			Hash:        fmt.Sprintf("Kt%x", rawTx.Hash()),
 			RawTx:       fmt.Sprintf("%x", []byte(rawTx)),
 			From:        sender.String(),
 			Nonce:       tx.Nonce,
@@ -135,7 +136,7 @@ func Block(height int64) (*BlockResponse, error) {
 			}
 
 			validators[i] = BlockValidatorResponse{
-				Pubkey: fmt.Sprintf("Mp%x", tmval.PubKey.Bytes()[5:]),
+				Pubkey: fmt.Sprintf("Kp%x", tmval.PubKey.Bytes()[5:]),
 				Signed: signed,
 			}
 		}

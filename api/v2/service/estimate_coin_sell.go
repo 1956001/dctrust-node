@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 	"fmt"
-	pb "github.com/MinterTeam/minter-go-node/api/v2/api_pb"
-	"github.com/MinterTeam/minter-go-node/core/commissions"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/formula"
+	pb "github.com/kvant-node/api/v2/api_pb"
+	"github.com/kvant-node/core/commissions"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/formula"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"math/big"
@@ -19,8 +19,8 @@ func (s *Service) EstimateCoinSell(_ context.Context, req *pb.EstimateCoinSellRe
 		return new(pb.EstimateCoinSellResponse), status.Error(codes.NotFound, err.Error())
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Lock()
+	defer cState.Unlock()
 
 	coinToSell := types.StrToCoinSymbol(req.CoinToSell)
 	coinToBuy := types.StrToCoinSymbol(req.CoinToBuy)

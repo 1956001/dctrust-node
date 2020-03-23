@@ -3,13 +3,13 @@ package frozenfunds
 import (
 	"encoding/binary"
 	"fmt"
-	eventsdb "github.com/MinterTeam/events-db"
-	"github.com/MinterTeam/minter-go-node/core/state/bus"
-	"github.com/MinterTeam/minter-go-node/core/state/candidates"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/formula"
-	"github.com/MinterTeam/minter-go-node/rlp"
-	"github.com/MinterTeam/minter-go-node/tree"
+	eventsdb "github.com/kvant-node/events-db"
+	"github.com/kvant-node/core/state/bus"
+	"github.com/kvant-node/core/state/candidates"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/formula"
+	"github.com/kvant-node/rlp"
+	"github.com/kvant-node/tree"
 	"github.com/tendermint/tendermint/crypto/ed25519"
 	"math/big"
 	"sort"
@@ -140,6 +140,7 @@ func (f *FrozenFunds) get(height uint64) *Model {
 	ff := &Model{}
 	if err := rlp.DecodeBytes(enc, ff); err != nil {
 		panic(fmt.Sprintf("failed to decode frozen funds at height %d: %s", height, err))
+		return nil
 	}
 
 	ff.height = height

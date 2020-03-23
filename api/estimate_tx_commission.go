@@ -2,9 +2,9 @@ package api
 
 import (
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/formula"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/formula"
+	"github.com/kvant-node/rpc/lib/types"
 	"math/big"
 )
 
@@ -18,10 +18,10 @@ func EstimateTxCommission(tx []byte, height int) (*TxCommissionResponse, error) 
 		return nil, err
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Lock()
+	defer cState.Unlock()
 
-	decodedTx, err := transaction.TxDecoder.DecodeFromBytesWithoutSig(tx)
+	decodedTx, err := transaction.TxDecoder.DecodeFromBytes(tx)
 	if err != nil {
 		return nil, rpctypes.RPCError{Code: 400, Message: "Cannot decode transaction", Data: err.Error()}
 	}

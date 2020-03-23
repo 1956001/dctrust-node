@@ -1,10 +1,10 @@
 package api
 
 import (
-	"github.com/MinterTeam/minter-go-node/core/state"
-	"github.com/MinterTeam/minter-go-node/core/state/candidates"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	"github.com/kvant-node/core/state"
+	"github.com/kvant-node/core/state/candidates"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/rpc/lib/types"
 )
 
 type Stake struct {
@@ -56,15 +56,13 @@ func Candidate(pubkey types.Pubkey, height int) (*CandidateResponse, error) {
 		return nil, err
 	}
 
-	if height != 0 {
-		cState.Lock()
-		cState.Candidates.LoadCandidates()
-		cState.Candidates.LoadStakesOfCandidate(pubkey)
-		cState.Unlock()
-	}
+	cState.Lock()
+	defer cState.Unlock()
 
-	cState.RLock()
-	defer cState.RUnlock()
+	if height != 0 {
+		cState.Candidates.LoadCandidates()
+		cState.Candidates.LoadStakes()
+	}
 
 	candidate := cState.Candidates.GetCandidate(pubkey)
 	if candidate == nil {

@@ -2,11 +2,11 @@ package api
 
 import (
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/commissions"
-	"github.com/MinterTeam/minter-go-node/core/transaction"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/formula"
-	"github.com/MinterTeam/minter-go-node/rpc/lib/types"
+	"github.com/kvant-node/core/commissions"
+	"github.com/kvant-node/core/transaction"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/formula"
+	"github.com/kvant-node/rpc/lib/types"
 	"math/big"
 )
 
@@ -23,8 +23,8 @@ func EstimateCoinSell(
 		return nil, err
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Lock()
+	defer cState.Unlock()
 
 	coinToSell := types.StrToCoinSymbol(coinToSellString)
 	coinToBuy := types.StrToCoinSymbol(coinToBuyString)

@@ -1,6 +1,6 @@
 package bus
 
-import eventsdb "github.com/MinterTeam/events-db"
+import eventsdb "github.com/kvant-node/events-db"
 
 type Bus struct {
 	coins       Coins

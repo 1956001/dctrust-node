@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/cli/pb"
+	"github.com/kvant-node/cli/pb"
 	"github.com/c-bata/go-prompt"
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/ptypes/empty"

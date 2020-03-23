@@ -3,12 +3,11 @@ package accounts
 import (
 	"bytes"
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/state/bus"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/formula"
-	"github.com/MinterTeam/minter-go-node/rlp"
-	"github.com/MinterTeam/minter-go-node/tree"
-	"github.com/MinterTeam/minter-go-node/upgrades"
+	"github.com/kvant-node/core/state/bus"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/formula"
+	"github.com/kvant-node/rlp"
+	"github.com/kvant-node/tree"
 	"math/big"
 	"sort"
 	"sync"
@@ -160,24 +159,11 @@ func (a *Accounts) SetNonce(address types.Address, nonce uint64) {
 	account.setNonce(nonce)
 }
 
-func (a *Accounts) ExistsMultisig(msigAddress types.Address) bool {
-	acc := a.get(msigAddress)
-	if acc == nil {
-		return false
-	}
-
-	if acc.IsMultisig() {
-		return true
-	}
-
-	if acc.Nonce > 0 {
-		return true
-	}
-
-	return false
+func (a *Accounts) Exists(msigAddress types.Address) bool {
+	return a.get(msigAddress) != nil
 }
 
-func (a *Accounts) CreateMultisig(weights []uint, addresses []types.Address, threshold uint, height uint64) types.Address {
+func (a *Accounts) CreateMultisig(weights []uint, addresses []types.Address, threshold uint) types.Address {
 	msig := Multisig{
 		Weights:   weights,
 		Threshold: threshold,
@@ -185,27 +171,16 @@ func (a *Accounts) CreateMultisig(weights []uint, addresses []types.Address, thr
 	}
 	address := msig.Address()
 
-	account := a.get(address)
-
-	if account == nil {
-		account = &Model{
-			Nonce:         0,
-			MultisigData:  msig,
-			address:       address,
-			coins:         []types.CoinSymbol{},
-			balances:      map[types.CoinSymbol]*big.Int{},
-			markDirty:     a.markDirty,
-			dirtyBalances: map[types.CoinSymbol]struct{}{},
-		}
+	account := &Model{
+		Nonce:         0,
+		MultisigData:  msig,
+		address:       address,
+		coins:         []types.CoinSymbol{},
+		balances:      map[types.CoinSymbol]*big.Int{},
+		markDirty:     a.markDirty,
+		dirtyBalances: map[types.CoinSymbol]struct{}{},
+		isNew:         true,
 	}
-
-	account.MultisigData = msig
-	account.markDirty(account.address)
-
-	if height > upgrades.UpgradeBlock1 {
-		account.isDirty = true
-	}
-
 	a.setToMap(address, account)
 
 	return address
@@ -226,6 +201,7 @@ func (a *Accounts) get(address types.Address) *Model {
 	account := &Model{}
 	if err := rlp.DecodeBytes(enc, account); err != nil {
 		panic(fmt.Sprintf("failed to decode account at address %s: %s", address.String(), err))
+		return nil
 	}
 
 	account.address = address

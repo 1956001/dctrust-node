@@ -2,8 +2,8 @@ package coins
 
 import (
 	"fmt"
-	"github.com/MinterTeam/minter-go-node/core/types"
-	"github.com/MinterTeam/minter-go-node/helpers"
+	"github.com/kvant-node/core/types"
+	"github.com/kvant-node/helpers"
 	"math/big"
 )
 

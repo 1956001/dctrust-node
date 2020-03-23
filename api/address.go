@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/MinterTeam/minter-go-node/core/types"
+	"github.com/kvant-node/core/types"
 )
 
 type AddressResponse struct {
@@ -15,8 +15,8 @@ func Address(address types.Address, height int) (*AddressResponse, error) {
 		return nil, err
 	}
 
-	cState.RLock()
-	defer cState.RUnlock()
+	cState.Lock()
+	defer cState.Unlock()
 
 	response := AddressResponse{
 		Balance:          make(map[string]string),
