@@ -6,16 +6,16 @@ import (
 )
 
 var (
-	KvantHome   string
-	KvantConfig string
+	MinterHome   string
+	MinterConfig string
 )
 
-func GetKvantHome() string {
-	if KvantHome != "" {
-		return KvantHome
+func GetMinterHome() string {
+	if MinterHome != "" {
+		return MinterHome
 	}
 
-	home := os.Getenv("KVANTHOME")
+	home := os.Getenv("MINTERHOME")
 
 	if home != "" {
 		return home
@@ -24,10 +24,10 @@ func GetKvantHome() string {
 	return os.ExpandEnv(filepath.Join("$HOME", ".kvant"))
 }
 
-func GetKvantConfigPath() string {
-	if KvantConfig != "" {
-		return KvantConfig
+func GetMinterConfigPath() string {
+	if MinterConfig != "" {
+		return MinterConfig
 	}
 
-	return GetKvantHome() + "/config/config.toml"
+	return GetMinterHome() + "/config/config.toml"
 }

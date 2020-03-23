@@ -21,8 +21,8 @@ const (
 
 func (s *Service) Subscribe(request *pb.SubscribeRequest, stream pb.ApiService_SubscribeServer) error {
 
-	if s.client.NumClients() >= s.kvantCfg.RPC.MaxSubscriptionClients {
-		return status.Error(codes.Internal, fmt.Sprintf("max_subscription_clients %d reached", s.kvantCfg.RPC.MaxSubscriptionClients))
+	if s.client.NumClients() >= s.minterCfg.RPC.MaxSubscriptionClients {
+		return status.Error(codes.Internal, fmt.Sprintf("max_subscription_clients %d reached", s.minterCfg.RPC.MaxSubscriptionClients))
 	}
 
 	s.client.Logger.Info("Subscribe to query", "query", request.Query)

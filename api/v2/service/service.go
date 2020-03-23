@@ -3,7 +3,7 @@ package service
 import (
 	"bytes"
 	"github.com/kvant-node/config"
-	"github.com/kvant-node/core/kvant"
+	"github.com/kvant-node/core/minter"
 	"github.com/kvant-node/core/state"
 	"github.com/golang/protobuf/jsonpb"
 	_struct "github.com/golang/protobuf/ptypes/struct"
@@ -15,15 +15,15 @@ import (
 
 type Service struct {
 	cdc        *amino.Codec
-	blockchain *kvant.Blockchain
+	blockchain *minter.Blockchain
 	client     *rpc.Local
 	tmNode     *tmNode.Node
-	kvantCfg  *config.Config
+	minterCfg  *config.Config
 	version    string
 }
 
-func NewService(cdc *amino.Codec, blockchain *kvant.Blockchain, client *rpc.Local, node *tmNode.Node, kvantCfg *config.Config, version string) *Service {
-	return &Service{cdc: cdc, blockchain: blockchain, client: client, kvantCfg: kvantCfg, version: version, tmNode: node}
+func NewService(cdc *amino.Codec, blockchain *minter.Blockchain, client *rpc.Local, node *tmNode.Node, minterCfg *config.Config, version string) *Service {
+	return &Service{cdc: cdc, blockchain: blockchain, client: client, minterCfg: minterCfg, version: version, tmNode: node}
 }
 
 func (s *Service) getStateForHeight(height int32) (*state.State, error) {

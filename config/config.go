@@ -88,8 +88,8 @@ func GetConfig() *Config {
 
 	cfg.P2P.AddrBook = "config/addrbook.json"
 
-	cfg.SetRoot(utils.GetKvantHome())
-	EnsureRoot(utils.GetKvantHome())
+	cfg.SetRoot(utils.GetMinterHome())
+	EnsureRoot(utils.GetMinterHome())
 
 	return cfg
 }

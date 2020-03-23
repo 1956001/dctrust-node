@@ -8,7 +8,7 @@ import (
 )
 
 type StatusResponse struct {
-	KvantVersion     string                   `json:"version"`
+	MinterVersion     string                   `json:"version"`
 	LatestBlockHash   string                   `json:"latest_block_hash"`
 	LatestAppHash     string                   `json:"latest_app_hash"`
 	LatestBlockHeight int64                    `json:"latest_block_height"`
@@ -24,12 +24,12 @@ func Status() (*StatusResponse, error) {
 	}
 
 	return &StatusResponse{
-		KvantVersion:     version.Version,
+		MinterVersion:     version.Version,
 		LatestBlockHash:   fmt.Sprintf("%X", result.SyncInfo.LatestBlockHash),
 		LatestAppHash:     fmt.Sprintf("%X", result.SyncInfo.LatestAppHash),
 		LatestBlockHeight: result.SyncInfo.LatestBlockHeight,
 		LatestBlockTime:   result.SyncInfo.LatestBlockTime,
-		KeepLastStates:    kvantCfg.BaseConfig.KeepLastStates,
+		KeepLastStates:    minterCfg.BaseConfig.KeepLastStates,
 		TmStatus:          result,
 	}, nil
 }

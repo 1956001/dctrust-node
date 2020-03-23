@@ -35,10 +35,10 @@ make get_vendor_deps
 # ldflags: -s Omit the symbol table and debug information.
 #	         -w Omit the DWARF symbol table.
 echo "==> Building for mac os..."
-CGO_ENABLED=1 CGO_LDFLAGS="-lsnappy" go build -tags "kvant gcc" -ldflags "-s -w -X ${GIT_IMPORT}.GitCommit=${GIT_COMMIT}" -o "build/pkg/darwin_amd64/kvant" ./cmd/kvant
+CGO_ENABLED=1 CGO_LDFLAGS="-lsnappy" go build -tags "minter gcc" -ldflags "-s -w -X ${GIT_IMPORT}.GitCommit=${GIT_COMMIT}" -o "build/pkg/darwin_amd64/minter" ./cmd/minter
 
 echo "==> Building for linux in docker"
-docker run -t -v ${PWD}:/go/src/github.com/kvant-node/ -i f4938e2f152b sh -c 'CGO_ENABLED=1 CGO_LDFLAGS="-lsnappy" go build -tags "kvant gcc" -ldflags "-s -w -X ${GIT_IMPORT}.GitCommit=${GIT_COMMIT}" -o "build/pkg/linux_amd64/kvant" ./cmd/kvant/'
+docker run -t -v ${PWD}:/go/src/github.com/kvant-node/ -i f4938e2f152b sh -c 'CGO_ENABLED=1 CGO_LDFLAGS="-lsnappy" go build -tags "minter gcc" -ldflags "-s -w -X ${GIT_IMPORT}.GitCommit=${GIT_COMMIT}" -o "build/pkg/linux_amd64/minter" ./cmd/minter/'
 
 # Zip all the files.
 echo "==> Packaging..."
@@ -51,17 +51,17 @@ for PLATFORM in $(find ./build/pkg -mindepth 1 -maxdepth 1 -type d); do
 	popd >/dev/null 2>&1
 done
 
-# Add "kvant" and $VERSION prefix to package name.
+# Add "minter" and $VERSION prefix to package name.
 rm -rf ./build/dist
 mkdir -p ./build/dist
 for FILENAME in $(find ./build/pkg -mindepth 1 -maxdepth 1 -type f); do
   FILENAME=$(basename "$FILENAME")
-	cp "./build/pkg/${FILENAME}" "./build/dist/kvant_${VERSION}_${FILENAME}"
+	cp "./build/pkg/${FILENAME}" "./build/dist/minter_${VERSION}_${FILENAME}"
 done
 
 # Make the checksums.
 pushd ./build/dist
-shasum -a256 ./* > "./kvant_${VERSION}_SHA256SUMS"
+shasum -a256 ./* > "./minter_${VERSION}_SHA256SUMS"
 popd
 
 # Done

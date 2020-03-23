@@ -1,4 +1,4 @@
-package kvant
+package minter
 
 import (
 	"bytes"
@@ -53,7 +53,7 @@ var (
 	}
 )
 
-// Main structure of Kvant Blockchain
+// Main structure of Minter Blockchain
 type Blockchain struct {
 	abciTypes.BaseApplication
 
@@ -77,11 +77,11 @@ type Blockchain struct {
 	haltHeight uint64
 }
 
-// Creates Kvant Blockchain instance, should be only called once
-func NewKvantBlockchain(cfg *config.Config) *Blockchain {
+// Creates Minter Blockchain instance, should be only called once
+func NewMinterBlockchain(cfg *config.Config) *Blockchain {
 	var err error
 
-	ldb, err := db.NewGoLevelDBWithOpts("state", utils.GetKvantHome()+"/data", dbOpts)
+	ldb, err := db.NewGoLevelDBWithOpts("state", utils.GetMinterHome()+"/data", dbOpts)
 	if err != nil {
 		panic(err)
 	}
@@ -89,7 +89,7 @@ func NewKvantBlockchain(cfg *config.Config) *Blockchain {
 	// Initiate Application DB. Used for persisting data like current block, validators, etc.
 	applicationDB := appdb.NewAppDB(cfg)
 
-	edb, err := db.NewGoLevelDBWithOpts("events", utils.GetKvantHome()+"/data", dbOpts)
+	edb, err := db.NewGoLevelDBWithOpts("events", utils.GetMinterHome()+"/data", dbOpts)
 	if err != nil {
 		panic(err)
 	}
@@ -369,7 +369,7 @@ func (app *Blockchain) EndBlock(req abciTypes.RequestEndBlock) abciTypes.Respons
 	}
 }
 
-// Return application info. Used for synchronization between Tendermint and Kvant
+// Return application info. Used for synchronization between Tendermint and Minter
 func (app *Blockchain) Info(req abciTypes.RequestInfo) (resInfo abciTypes.ResponseInfo) {
 	return abciTypes.ResponseInfo{
 		Version:          version.Version,
@@ -427,7 +427,7 @@ func (app *Blockchain) Commit() abciTypes.ResponseCommit {
 		}
 	}
 
-	// Committing Kvant Blockchain state
+	// Committing Minter Blockchain state
 	hash, err := app.stateDeliver.Commit()
 	if err != nil {
 		panic(err)
@@ -463,13 +463,13 @@ func (app *Blockchain) SetOption(req abciTypes.RequestSetOption) abciTypes.Respo
 	return abciTypes.ResponseSetOption{}
 }
 
-// Gracefully stopping Kvant Blockchain instance
+// Gracefully stopping Minter Blockchain instance
 func (app *Blockchain) Stop() {
 	app.appDB.Close()
 	app.stateDB.Close()
 }
 
-// Get immutable state of Kvant Blockchain
+// Get immutable state of Minter Blockchain
 func (app *Blockchain) CurrentState() *state.State {
 	app.lock.RLock()
 	defer app.lock.RUnlock()
@@ -477,7 +477,7 @@ func (app *Blockchain) CurrentState() *state.State {
 	return state.NewCheckState(app.stateCheck)
 }
 
-// Get immutable state of Kvant Blockchain for given height
+// Get immutable state of Minter Blockchain for given height
 func (app *Blockchain) GetStateForHeight(height uint64) (*state.State, error) {
 	app.lock.RLock()
 	defer app.lock.RUnlock()
@@ -490,7 +490,7 @@ func (app *Blockchain) GetStateForHeight(height uint64) (*state.State, error) {
 	return s, nil
 }
 
-// Get current height of Kvant Blockchain
+// Get current height of Minter Blockchain
 func (app *Blockchain) Height() uint64 {
 	return atomic.LoadUint64(&app.height)
 }

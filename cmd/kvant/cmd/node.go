@@ -8,7 +8,7 @@ import (
 	"github.com/kvant-node/cli/service"
 	"github.com/kvant-node/cmd/utils"
 	"github.com/kvant-node/config"
-	"github.com/kvant-node/core/kvant"
+	"github.com/kvant-node/core/minter"
 	"github.com/kvant-node/log"
 	"github.com/kvant-node/version"
 	"github.com/gobuffalo/packr"
@@ -32,7 +32,7 @@ import (
 
 var RunNode = &cobra.Command{
 	Use:   "node",
-	Short: "Run the Kvant node",
+	Short: "Run the Minter node",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return runNode(cmd)
 	},
@@ -64,11 +64,11 @@ func runNode(cmd *cobra.Command) error {
 
 	tmConfig := config.GetTmConfig(cfg)
 
-	if err := tmos.EnsureDir(utils.GetKvantHome()+"/config", 0777); err != nil {
+	if err := tmos.EnsureDir(utils.GetMinterHome()+"/config", 0777); err != nil {
 		return err
 	}
 
-	if err := tmos.EnsureDir(utils.GetKvantHome()+"/tmdata", 0777); err != nil {
+	if err := tmos.EnsureDir(utils.GetMinterHome()+"/tmdata", 0777); err != nil {
 		return err
 	}
 
@@ -76,7 +76,7 @@ func runNode(cmd *cobra.Command) error {
 		panic("keep_last_states field should be greater than 0")
 	}
 
-	app := kvant.NewKvantBlockchain(cfg)
+	app := minter.NewMinterBlockchain(cfg)
 
 	// update BlocksTimeDelta in case it was corrupted
 	updateBlocksTimeDelta(app, tmConfig)
@@ -98,7 +98,7 @@ func runNode(cmd *cobra.Command) error {
 
 	ctxCli, stopCli := context.WithCancel(context.Background())
 	go func() {
-		err := service.StartCLIServer(utils.GetKvantHome()+"/manager.sock", service.NewManager(app, client, cfg), ctxCli)
+		err := service.StartCLIServer(utils.GetMinterHome()+"/manager.sock", service.NewManager(app, client, cfg), ctxCli)
 		if err != nil {
 			panic(err)
 		}
@@ -118,7 +118,7 @@ func runNode(cmd *cobra.Command) error {
 	select {}
 }
 
-func updateBlocksTimeDelta(app *kvant.Blockchain, config *tmCfg.Config) {
+func updateBlocksTimeDelta(app *minter.Blockchain, config *tmCfg.Config) {
 	blockStoreDB, err := tmNode.DefaultDBProvider(&tmNode.DBContext{ID: "blockstore", Config: config})
 	if err != nil {
 		panic(err)
@@ -170,7 +170,7 @@ func startTendermintNode(app types.Application, cfg *tmCfg.Config, logger tmlog.
 }
 
 func getGenesis() (doc *tmTypes.GenesisDoc, e error) {
-	genesisFile := utils.GetKvantHome() + "/config/genesis.json"
+	genesisFile := utils.GetMinterHome() + "/config/genesis.json"
 
 	if !tmos.FileExists(genesisFile) {
 //		box := packr.NewBox("../../../genesis/current/")
