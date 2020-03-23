@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/kvant-node/cli/pb"
 	"github.com/kvant-node/config"
-	"github.com/kvant-node/core/minter"
+	"github.com/kvant-node/core/kvant"
 	"github.com/kvant-node/version"
 	"github.com/golang/protobuf/ptypes/empty"
 	rpc "github.com/tendermint/tendermint/rpc/client"
@@ -15,12 +15,12 @@ import (
 )
 
 type Manager struct {
-	blockchain *minter.Blockchain
+	blockchain *kvant.Blockchain
 	tmRPC      *rpc.Local
 	cfg        *config.Config
 }
 
-func NewManager(blockchain *minter.Blockchain, tmRPC *rpc.Local, cfg *config.Config) pb.ManagerServiceServer {
+func NewManager(blockchain *kvant.Blockchain, tmRPC *rpc.Local, cfg *config.Config) pb.ManagerServiceServer {
 	return &Manager{blockchain: blockchain, tmRPC: tmRPC, cfg: cfg}
 }
 
