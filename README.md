@@ -1,4 +1,4 @@
-<p align="center" background="black"><img src="kvant-logo-black.png" width="400"></p>
+<p align="center" background="black"><img src="kvant-logo-black.png"></p>
 
 
 # kvant-node
