@@ -22,7 +22,7 @@ func (s *Service) Status(context.Context, *empty.Empty) (*pb.StatusResponse, err
 		LatestAppHash:     fmt.Sprintf("%X", result.SyncInfo.LatestAppHash),
 		LatestBlockHeight: fmt.Sprintf("%d", result.SyncInfo.LatestBlockHeight),
 		LatestBlockTime:   result.SyncInfo.LatestBlockTime.Format(time.RFC3339Nano),
-		KeepLastStates:    fmt.Sprintf("%d", s.minterCfg.BaseConfig.KeepLastStates),
+		KeepLastStates:    fmt.Sprintf("%d", s.kvantCfg.BaseConfig.KeepLastStates),
 		CatchingUp:        result.SyncInfo.CatchingUp,
 		PublicKey: &pb.StatusResponse_PubKey{
 			//Type:  "todo",

@@ -10,11 +10,11 @@ import (
 var cfg *config.Config
 
 var RootCmd = &cobra.Command{
-	Use:   "minter",
-	Short: "Minter Go Node",
+	Use:   "kvant",
+	Short: "Kvant Go Node",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		v := viper.New()
-		v.SetConfigFile(utils.GetMinterConfigPath())
+		v.SetConfigFile(utils.GetKvantConfigPath())
 		cfg = config.GetConfig()
 
 		if err := v.ReadInConfig(); err != nil {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	eventsdb "github.com/kvant-node/events-db"
 	"github.com/kvant-node/config"
-	"github.com/kvant-node/core/minter"
+	"github.com/kvant-node/core/kvant"
 	"github.com/kvant-node/core/state"
 	"github.com/kvant-node/rpc/lib/server"
 	"github.com/rs/cors"
@@ -25,9 +25,9 @@ import (
 
 var (
 	cdc        = amino.NewCodec()
-	blockchain *minter.Blockchain
+	blockchain *kvant.Blockchain
 	client     *rpc.Local
-	minterCfg  *config.Config
+	kvantCfg  *config.Config
 )
 
 var Routes = map[string]*rpcserver.RPCFunc{
@@ -55,8 +55,8 @@ var Routes = map[string]*rpcserver.RPCFunc{
 	"missed_blocks":          rpcserver.NewRPCFunc(MissedBlocks, "pub_key,height"),
 }
 
-func RunAPI(b *minter.Blockchain, tmRPC *rpc.Local, cfg *config.Config, logger log.Logger) {
-	minterCfg = cfg
+func RunAPI(b *kvant.Blockchain, tmRPC *rpc.Local, cfg *config.Config, logger log.Logger) {
+	kvantCfg = cfg
 	RegisterCryptoAmino(cdc)
 	eventsdb.RegisterAminoEvents(cdc)
 	RegisterEvidenceMessages(cdc)
