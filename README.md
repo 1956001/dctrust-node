@@ -56,5 +56,3 @@ wget -O kvant_compiller.sh  https://raw.githubusercontent.com/kvant-development/
 chmod +x kvant_compiller.sh && \
 ./kvant_compiller.sh
 ```
-
-
