@@ -1,6 +1,6 @@
 mkdir -p $GOPATH/src/github.com/
 cd $GOPATH/src/github.com/
-git clone https://github.com/kvantdev-test/kvant-node
+git clone https://github.com/kvant-development/kvant-node kvant-node
 cd kvant-node
 
 make get_tools
