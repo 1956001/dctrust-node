@@ -35,7 +35,7 @@
             {
                 "reward_address": "Kxd4299f6f691e904f82fecd915a1e9b09ba42d302",
                 "owner_address": "Kxd4299f6f691e904f82fecd915a1e9b09ba42d302",
-                "total_bip_stake": "8880000000000000000000000",
+                "total_bip_stake": "8880000",
                 "pub_key": "Mp00300e8b0c21eb5a519efec4ae511bfcdf08591448eedada484d825548e87001",
                 "commission": "100",
                 "stakes": [
@@ -46,13 +46,13 @@
                         "bip_value": "8880000000000000000000000"
                     }
                 ],
-                "created_at_block": "1",
+                "created_at_block": "0",
                 "status": 2
             },
             {
                 "reward_address": "Kx278183807556f2d6db32e1d2d10e7751df36d4b1",
                 "owner_address": "Kx278183807556f2d6db32e1d2d10e7751df36d4b1",
-                "total_bip_stake": "8880000000000000000000000",
+                "total_bip_stake": "8880000",
                 "pub_key": "Mp0058275c3ab1feb33b83f3e1ee28e18fc61acfeb73ad479733803a38cba02002",
                 "commission": "100",
                 "stakes": [
@@ -63,13 +63,13 @@
                         "bip_value": "8880000000000000000000000"
                     }
                 ],
-                "created_at_block": "1",
+                "created_at_block": "0",
                 "status": 1
             },
             {
                 "reward_address": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
                 "owner_address": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
-                "total_bip_stake": "8880000000000000000000000",
+                "total_bip_stake": "8880000",
                 "pub_key": "Mp00d516f2d201b6f8bb83e3176675c271d33e8722cd970ad1d763fa8e0628d003",
                 "commission": "100",
                 "stakes": [
@@ -80,13 +80,13 @@
                         "bip_value": "8880000000000000000000000"
                     }
                 ],
-                "created_at_block": "1",
+                "created_at_block": "0",
                 "status": 1
             },
             {
                 "reward_address": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",
                 "owner_address": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",
-                "total_bip_stake": "8880000000000000000000000",
+                "total_bip_stake": "8880000",
                 "pub_key": "Mp00d4d420575bc6fb6f857c3fa10ccacc54fac0efbef8512f7080117fdc60a004",
                 "commission": "100",
                 "stakes": [
@@ -97,7 +97,7 @@
                         "bip_value": "8880000000000000000000000"
                     }
                 ],
-                "created_at_block": "1",
+                "created_at_block": "0",
                 "status": 1
             }
         ],
@@ -4907,7 +4907,7 @@
                 "balance": [
                     {
                         "coin": "KVANT",
-                        "value": "360000000000000000000000000"
+                        "value": "324480000000000000000000000"
                     }
                 ],
                 "nonce": "0"
