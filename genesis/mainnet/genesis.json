@@ -29,30 +29,6 @@
                 "commission": "100",
                 "accum_reward": "0",
                 "absent_times": "________________________"
-            },
-            {
-                "reward_address": "Kx278183807556f2d6db32e1d2d10e7751df36d4b1",
-                "total_bip_stake": "8880000000000000000000000",
-                "pub_key": "Mp0058275c3ab1feb33b83f3e1ee28e18fc61acfeb73ad479733803a38cba02002",
-                "commission": "100",
-                "accum_reward": "0",
-                "absent_times": "________________________"
-            },
-            {
-                "reward_address": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
-                "total_bip_stake": "8880000000000000000000000",
-                "pub_key": "Mp00d516f2d201b6f8bb83e3176675c271d33e8722cd970ad1d763fa8e0628d003",
-                "commission": "100",
-                "accum_reward": "0",
-                "absent_times": "________________________"
-            },
-            {
-                "reward_address": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",
-                "total_bip_stake": "8880000000000000000000000",
-                "pub_key": "Mp00d4d420575bc6fb6f857c3fa10ccacc54fac0efbef8512f7080117fdc60a004",
-                "commission": "100",
-                "accum_reward": "0",
-                "absent_times": "________________________"
             }
         ],
         "candidates": [
