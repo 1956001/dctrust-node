@@ -4949,35 +4949,35 @@
         ],
         "frozen_funds": [
             {
-                "height": "2400",
+                "height": "1760400",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
                 "value": "426240000000000000000000000"
             },
             {
-                "height": "3600",
+                "height": "2653200",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
                 "value": "630000000000000000000000000"
             },
             {
-                "height": "4800",
+                "height": "3517200",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
                 "value": "933000000000000000000000000"
             },
             {
-                "height": "6000",
+                "height": "4410000",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
                 "value": "1381000000000000000000000000"
             },
             {
-                "height": "7200",
+                "height": "5302800",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
