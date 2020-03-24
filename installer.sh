@@ -13,3 +13,4 @@ cp genesis.json ~/.kvant/config/genesis.json
 echo ./$ver node >> node_start.sh
 chmod +x node_start.sh
 ./node_start.sh
+
