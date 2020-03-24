@@ -88,7 +88,7 @@
                     }
                 ],
                 "created_at_block": "1",
-                "status": 2
+                "status": 1
             },
             {
                 "reward_address": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
@@ -105,7 +105,7 @@
                     }
                 ],
                 "created_at_block": "1",
-                "status": 2
+                "status": 1
             },
             {
                 "reward_address": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",

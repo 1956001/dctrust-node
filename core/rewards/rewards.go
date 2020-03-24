@@ -6,9 +6,9 @@ import (
 	"math/big"
 )
 
-const lastBlock = 100000000
-const firstReward = 999
-const lastReward = 10
+const lastBlock = 1
+const firstReward = 1
+const lastReward = 1
 
 var startHeight uint64 = 0
 var BeforeGenesis = big.NewInt(0)
