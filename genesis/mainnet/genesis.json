@@ -1,5 +1,5 @@
 {
-    "genesis_time": "2020-03-25T09:00:00Z",
+    "genesis_time": "2020-03-25T12:30:00Z",
     "chain_id": "kvant-mainnet-1",
     "consensus_params": {
         "block": {
@@ -4931,7 +4931,7 @@
                 "balance": [
                     {
                         "coin": "KVANT",
-                        "value": "324480000000000000000000000"
+                        "value": "324479600000000000000000000"
                     }
                 ],
                 "nonce": "0"
@@ -4945,39 +4945,79 @@
                     }
                 ],
                 "nonce": "0"
+            },
+            {
+                "address": "Kxd4299f6f691e904f82fecd915a1e9b09ba42d302",
+                "balance": [
+                    {
+                        "coin": "KVANT",
+                        "value": "100000000000000000000"
+                    }
+                ],
+                "nonce": "0"
+            },
+            {
+                "address": "Kx278183807556f2d6db32e1d2d10e7751df36d4b1",
+                "balance": [
+                    {
+                        "coin": "KVANT",
+                        "value": "100000000000000000000"
+                    }
+                ],
+                "nonce": "0"
+            },
+            {
+                "address": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
+                "balance": [
+                    {
+                        "coin": "KVANT",
+                        "value": "100000000000000000000"
+                    }
+                ],
+                "nonce": "0"
+            },
+            {
+                "address": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",
+                "balance": [
+                    {
+                        "coin": "KVANT",
+                        "value": "100000000000000000000"
+                    }
+                ],
+                "nonce": "0"
             }
         ],
         "frozen_funds": [
             {
-                "height": "1760400",
+                "height": "1756200",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
                 "value": "426240000000000000000000000"
             },
             {
-                "height": "2653200",
+                "height": "2649000",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
                 "value": "630000000000000000000000000"
             },
             {
-                "height": "3517200",
+                "height": "3513000",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
                 "value": "933000000000000000000000000"
             },
             {
-                "height": "4410000",
+                "height": "4405800",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
                 "value": "1381000000000000000000000000"
             },
             {
-                "height": "5302800",
+                "height": "5298600",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVANT",
