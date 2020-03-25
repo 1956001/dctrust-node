@@ -9,6 +9,11 @@ chmod +x ./$ver
 wget https://raw.githubusercontent.com/kvant-development/kvant-node/master/genesis/mainnet/genesis.json
 cp genesis.json ~/.kvant/config/genesis.json
 
+echo "screen -S node -d -m ./node_start.sh" > daemon.sh
+echo "screen -r -d node" >> daemon.sh
+chmod +x daemon.sh
+
+
 echo > node_start.sh
 echo 'log="daemon.`hostname`.[v$ver].`date '+%Y-%m-%d_%H_%M_%S'`.txt"' >>  node_start.sh
 echo './$ver node  version' >> node_start.sh
