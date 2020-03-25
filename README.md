@@ -56,3 +56,7 @@ chmod +x kvant_compiller.sh && \
 ./kvant_compiller.sh
 ```
 
+### Web Gui
+```bash
+wget -O /var/www/nginx/index.html https://raw.githubusercontent.com/kvant-development/kvant-node/master/index.html
+```
