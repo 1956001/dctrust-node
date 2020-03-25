@@ -38,7 +38,10 @@ func DefaultConfig() *Config {
 	cfg := defaultConfig()
 
 //	cfg.P2P.Seeds = "11268f919ef241907594af4da60d64b56ca23339@seed-testnet.kvant.io:12255"
-	cfg.P2P.Seeds = "084489b8c3041b15a16113017d69b95ecbb619b7@seed-mainnet.kvant.io:12255"
+	cfg.P2P.Seeds = "084489b8c3041b15a16113017d69b95ecbb619b7@seed-mainnet.kvant.io:12255" +
+			",13d23814af2b9014d146fa7e0aca83a1f3efb582@kvant-node2.kvant.io:12255" +
+			",c2cd7dd6b9370ce1ab0ebb0fd0ef3a6998eb3153@kvant-node3.kvant.io:12255" +
+			",2db0134ed67da12bbbed852a9d764b73f02475d6@kvant-node4.kvant.io:12255"
 
 	cfg.TxIndex = &tmConfig.TxIndexConfig{
 		Indexer:      "kv",
