@@ -14,5 +14,5 @@ build/kvant node
 filename="kvant_${version}"
 echo $filename > bin_name
 cp build/kvant release/$filename
-
+shasum -a256 release/$filename > release/$filename.SHA256SUMS
 
