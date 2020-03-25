@@ -3,10 +3,11 @@
 mkdir -p /kvant
 cd /kvant
 ver=`wget -O - https://raw.githubusercontent.com/kvant-development/kvant-node/master/bin_name 2>/dev/null`
+echo $ver
 wget https://github.com/kvant-development/kvant-node/raw/master/release/$ver
 chmod +x ./$ver
 ./$ver show_node_id
-wget https://raw.githubusercontent.com/kvant-development/kvant-node/master/genesis/mainnet/genesis.json
+wget -O genesis.json https://raw.githubusercontent.com/kvant-development/kvant-node/master/genesis/mainnet/genesis.json
 cp genesis.json ~/.kvant/config/genesis.json
 
 echo "screen -S node -d -m ./node_start.sh" > daemon.sh
