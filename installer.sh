@@ -10,6 +10,7 @@ chmod +x ./$ver
 wget https://raw.githubusercontent.com/kvant-development/kvant-node/master/genesis/mainnet/genesis.json
 cp genesis.json ~/.kvant/config/genesis.json
 
+echo > node_start.sh
 echo ./$ver node >> node_start.sh
 chmod +x node_start.sh
 ./node_start.sh
