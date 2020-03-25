@@ -19,9 +19,9 @@ mkdir -p /kvant/logs
 
 echo > node_start.sh
 echo 'log="/kvant/logs/daemon.`hostname`.[v$ver].`date '+%Y-%m-%d_%H_%M_%S'`.txt"' >>  node_start.sh
-echo "./$ver node  version" >> node_start.sh
-echo "./$ver node  show_node_id" >> node_start.sh
-echo "./$ver node  show_validator" >> node_start.sh
+echo "./$ver version" >> node_start.sh
+echo "./$ver show_node_id" >> node_start.sh
+echo "./$ver show_validator" >> node_start.sh
 echo 'echo $log'  >> node_start.sh
 echo "./$ver node >> \$log 2>&1 " >> node_start.sh
 chmod +x node_start.sh
