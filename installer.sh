@@ -14,8 +14,10 @@ echo "screen -r -d node" >> daemon.sh
 chmod +x daemon.sh
 
 
+mkdir -p /kvant/logs
+
 echo > node_start.sh
-echo 'log="daemon.`hostname`.[v$ver].`date '+%Y-%m-%d_%H_%M_%S'`.txt"' >>  node_start.sh
+echo 'log="/kvant/logs/daemon.`hostname`.[v$ver].`date '+%Y-%m-%d_%H_%M_%S'`.txt"' >>  node_start.sh
 echo "./$ver node  version" >> node_start.sh
 echo "./$ver node  show_node_id" >> node_start.sh
 echo "./$ver node  show_validator" >> node_start.sh
