@@ -1,5 +1,5 @@
 {
-    "genesis_time": "2020-04-01T10:00:00Z",
+    "genesis_time": "2020-04-01T10:20:00Z",
     "chain_id": "kvant-mainnet-1",
     "consensus_params": {
         "block": {
@@ -4989,35 +4989,35 @@
         ],
         "frozen_funds": [
             {
-                "height": "1557600",
+                "height": "1557200",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVNT",
                 "value": "426240000000000000000000000"
             },
             {
-                "height": "2450400",
+                "height": "2450000",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVNT",
                 "value": "630000000000000000000000000"
             },
             {
-                "height": "3314400",
+                "height": "3314000",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVNT",
                 "value": "933000000000000000000000000"
             },
             {
-                "height": "4207200",
+                "height": "4206800",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVNT",
                 "value": "1381000000000000000000000000"
             },
             {
-                "height": "5100000",
+                "height": "5099600",
                 "address": "Kx090eb481c921c65012e1684f0fc1b6a4f57e747d",
                 "candidate_key": "Mp00",
                 "coin": "KVNT",
