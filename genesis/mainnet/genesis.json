@@ -1,6 +1,6 @@
 {
-    "genesis_time": "2020-04-01T10:45:00Z",
-    "chain_id": "kvant-mainnet-1",
+    "genesis_time": "2020-10-17T10:45:00Z",
+    "chain_id": "dctrust-mainnet-5",
     "consensus_params": {
         "block": {
             "max_bytes": "10000000",
@@ -23,33 +23,33 @@
         "start_height": "0",
         "validators": [
             {
-                "reward_address": "Kxd4299f6f691e904f82fecd915a1e9b09ba42d302",
-                "total_bip_stake": "8880000000000000000000000",
-                "pub_key": "Mp00300e8b0c21eb5a519efec4ae511bfcdf08591448eedada484d825548e87001",
+                "reward_address": "Kx804f93cfe930edf0ab5bc77e86b4e2809568ff8e",
+                "total_bip_stake": "50000000000000000000000000",
+                "pub_key": "Kpf463531f654bdde6f65f89271b78a58108419a1c5dc89b65de14bc7028d2779e",
                 "commission": "100",
                 "accum_reward": "0",
                 "absent_times": "________________________"
             },
             {
-                "reward_address": "Kx278183807556f2d6db32e1d2d10e7751df36d4b1",
-                "total_bip_stake": "8880000000000000000000000",
-                "pub_key": "Mp0058275c3ab1feb33b83f3e1ee28e18fc61acfeb73ad479733803a38cba02002",
+                "reward_address": "Kxe43abacc054cb15469e65c8a68fb2fe20190b7db",
+                "total_bip_stake": "20000000000000000000000000",
+                "pub_key": "Kp6f7b22a1257a18ecfde9ec894acdc137d5377b846c24f6f7f72b9b6ed47d4437",
                 "commission": "100",
                 "accum_reward": "0",
                 "absent_times": "________________________"
             },
             {
-                "reward_address": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
-                "total_bip_stake": "8880000000000000000000000",
-                "pub_key": "Mp00d516f2d201b6f8bb83e3176675c271d33e8722cd970ad1d763fa8e0628d003",
+                "reward_address": "Kx6874ee2ad24061ca51e6fbdb13b0b703a5dd88eb",
+                "total_bip_stake": "10000000000000000000000000",
+                "pub_key": "Kp3d1bdb760b7a03ffe6141be50271ea59b50567c5122c830120b3224855e9f307",
                 "commission": "100",
                 "accum_reward": "0",
                 "absent_times": "________________________"
             },
             {
-                "reward_address": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",
-                "total_bip_stake": "8880000000000000000000000",
-                "pub_key": "Mp00d4d420575bc6fb6f857c3fa10ccacc54fac0efbef8512f7080117fdc60a004",
+                "reward_address": "Kxd70e953ab6fc333c282ab3e19616b4f09949b95f",
+                "total_bip_stake": "5000000000000000000000000",
+                "pub_key": "Kp4f6d782026ee8d5027a743bc706d76dc75cf9ee3448f6df1ae5c8037bda32b7a",
                 "commission": "100",
                 "accum_reward": "0",
                 "absent_times": "________________________"
@@ -57,68 +57,68 @@
         ],
         "candidates": [
             {
-                "reward_address": "Kxd4299f6f691e904f82fecd915a1e9b09ba42d302",
-                "owner_address": "Kxd4299f6f691e904f82fecd915a1e9b09ba42d302",
-                "total_bip_stake": "8880000",
-                "pub_key": "Mp00300e8b0c21eb5a519efec4ae511bfcdf08591448eedada484d825548e87001",
+                "reward_address": "Kx804f93cfe930edf0ab5bc77e86b4e2809568ff8e",
+                "owner_address": "Kx804f93cfe930edf0ab5bc77e86b4e2809568ff8e",
+                "total_bip_stake": "50000000",
+                "pub_key": "Kpf463531f654bdde6f65f89271b78a58108419a1c5dc89b65de14bc7028d2779e",
                 "commission": "100",
                 "stakes": [
                     {
-                        "owner": "Kxd4299f6f691e904f82fecd915a1e9b09ba42d302",
-                        "coin": "KVNT",
-                        "value": "8880000000000000000000000",
-                        "bip_value": "8880000000000000000000000"
+                        "owner": "Kx804f93cfe930edf0ab5bc77e86b4e2809568ff8e",
+                        "coin": "DCT",
+                        "value": "50000000000000000000000000",
+                        "bip_value": "50000000000000000000000000"
                     }
                 ],
                 "created_at_block": "0",
                 "status": 2
             },
             {
-                "reward_address": "Kx278183807556f2d6db32e1d2d10e7751df36d4b1",
-                "owner_address": "Kx278183807556f2d6db32e1d2d10e7751df36d4b1",
-                "total_bip_stake": "8880000",
-                "pub_key": "Mp0058275c3ab1feb33b83f3e1ee28e18fc61acfeb73ad479733803a38cba02002",
+                "reward_address": "Kxe43abacc054cb15469e65c8a68fb2fe20190b7db",
+                "owner_address": "Kxe43abacc054cb15469e65c8a68fb2fe20190b7db",
+                "total_bip_stake": "20000000",
+                "pub_key": "Kp6f7b22a1257a18ecfde9ec894acdc137d5377b846c24f6f7f72b9b6ed47d4437",
                 "commission": "100",
                 "stakes": [
                     {
-                        "owner": "Kx278183807556f2d6db32e1d2d10e7751df36d4b1",
-                        "coin": "KVNT",
-                        "value": "8880000000000000000000000",
-                        "bip_value": "8880000000000000000000000"
+                        "owner": "Kxe43abacc054cb15469e65c8a68fb2fe20190b7db",
+                        "coin": "DCT",
+                        "value": "20000000000000000000000000",
+                        "bip_value": "20000000000000000000000000"
                     }
                 ],
                 "created_at_block": "0",
                 "status": 2
             },
             {
-                "reward_address": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
-                "owner_address": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
-                "total_bip_stake": "8880000",
-                "pub_key": "Mp00d516f2d201b6f8bb83e3176675c271d33e8722cd970ad1d763fa8e0628d003",
+                "reward_address": "Kx6874ee2ad24061ca51e6fbdb13b0b703a5dd88eb",
+                "owner_address": "Kx6874ee2ad24061ca51e6fbdb13b0b703a5dd88eb",
+                "total_bip_stake": "10000000",
+                "pub_key": "Kp3d1bdb760b7a03ffe6141be50271ea59b50567c5122c830120b3224855e9f307",
                 "commission": "100",
                 "stakes": [
                     {
-                        "owner": "Kx148f76a89eda761eee0175aebb0d0f93cb70659a",
-                        "coin": "KVNT",
-                        "value": "8880000000000000000000000",
-                        "bip_value": "8880000000000000000000000"
+                        "owner": "Kx6874ee2ad24061ca51e6fbdb13b0b703a5dd88eb",
+                        "coin": "DCT",
+                        "value": "10000000000000000000000000",
+                        "bip_value": "10000000000000000000000000"
                     }
                 ],
                 "created_at_block": "0",
                 "status": 2
             },
             {
-                "reward_address": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",
-                "owner_address": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",
-                "total_bip_stake": "8880000",
-                "pub_key": "Mp00d4d420575bc6fb6f857c3fa10ccacc54fac0efbef8512f7080117fdc60a004",
+                "reward_address": "Kxd70e953ab6fc333c282ab3e19616b4f09949b95f",
+                "owner_address": "Kxd70e953ab6fc333c282ab3e19616b4f09949b95f",
+                "total_bip_stake": "5000000",
+                "pub_key": "Kp4f6d782026ee8d5027a743bc706d76dc75cf9ee3448f6df1ae5c8037bda32b7a",
                 "commission": "100",
                 "stakes": [
                     {
-                        "owner": "Kx4bf9ca5f3e33a9b134a5b2f690eb3f02c761f32e",
-                        "coin": "KVNT",
-                        "value": "8880000000000000000000000",
-                        "bip_value": "8880000000000000000000000"
+                        "owner": "Kxd70e953ab6fc333c282ab3e19616b4f09949b95f",
+                        "coin": "DCT",
+                        "value": "5000000000000000000000000",
+                        "bip_value": "5000000000000000000000000"
                     }
                 ],
                 "created_at_block": "0",
@@ -182,16 +182,6 @@
                     {
                         "coin": "KVNT",
                         "value": "460000000000000000000000"
-                    }
-                ],
-                "nonce": "0"
-            },
-            {
-                "address": "Kx6c4cdb8824f1a45bd097d8ffdaeed4f071a4a6bd",
-                "balance": [
-                    {
-                        "coin": "KVNT",
-                        "value": "494760000000000000000000"
                     }
                 ],
                 "nonce": "0"
@@ -602,46 +592,6 @@
                     {
                         "coin": "KVNT",
                         "value": "479250000000000000000000"
-                    }
-                ],
-                "nonce": "0"
-            },
-            {
-                "address": "Kxfe7b27cd1d15faaa12adaa8f40e2f3e03db1e57f",
-                "balance": [
-                    {
-                        "coin": "KVNT",
-                        "value": "549500000000000000000000"
-                    }
-                ],
-                "nonce": "0"
-            },
-            {
-                "address": "Kx687b492ae2855f84841668f433452d55dc4b4943",
-                "balance": [
-                    {
-                        "coin": "KVNT",
-                        "value": "501110000000000000000000"
-                    }
-                ],
-                "nonce": "0"
-            },
-            {
-                "address": "Kx733a4a30d27455f2e14d95e8b48eb37bdce5f700",
-                "balance": [
-                    {
-                        "coin": "KVNT",
-                        "value": "490000000000000000000000"
-                    }
-                ],
-                "nonce": "0"
-            },
-            {
-                "address": "Kx2688a393e2d34b58741f2ea7e065485974d7f4b3",
-                "balance": [
-                    {
-                        "coin": "KVNT",
-                        "value": "490000000000000000000000"
                     }
                 ],
                 "nonce": "0"
